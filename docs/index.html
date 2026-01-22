@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Madagascar Drought - Open Data & Digital Ethics</title>
+  <meta name="description" content="Open data mash-up, DCAT-AP metadata, and citizen-friendly visualization of drought indicators in Madagascar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  
+  <style>
+    :root {
+      color-scheme: only light;
+      --cream: #f4f1e9;
+      --paper: rgba(10, 14, 12, 0.66);
+      --ink: #f7f5ee;
+      --muted: rgba(247, 245, 238, 0.75);
+      --line: rgba(247, 245, 238, 0.2);
+      --accent: #b1d189;
+      --accent-strong: #d5ff3f;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Spline Sans", "Trebuchet MS", sans-serif;
+      background: #0b0f0c;
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    a { color: inherit; }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    main.grid { gap: 0; }
+
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px 26px;
+      padding: 16px 6vw;
+      background: rgba(8, 12, 10, 0.8);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 6px;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      color: var(--ink);
+    }
+
+    .nav a.is-active {
+      color: var(--ink);
+    }
+
+    .nav a.is-active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+    }
+
+    .nav .dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav .dropdown-toggle {
+      background: none;
+      border: 0;
+      color: var(--muted);
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: uppercase;
+      padding: 0 0 6px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav .dropdown-toggle:hover,
+    .nav .dropdown-toggle:focus-visible {
+      color: var(--ink);
+    }
+
+    .nav .dropdown-toggle::after {
+      content: "▾";
+      margin-left: 8px;
+      font-size: 0.8em;
+    }
+
+    .nav .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 220px;
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(8, 12, 10, 0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: top;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .nav .dropdown-menu a {
+      padding: 6px 0;
+    }
+
+    .nav .dropdown.is-open .dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .scroll-hint {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 15;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(8, 12, 10, 0.72);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      animation: hintPulse 2.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .scroll-hint span {
+      display: inline-block;
+      font-size: 1rem;
+      animation: hintArrow 1.4s ease-in-out infinite;
+    }
+
+    .scroll-hint.is-hidden {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      animation: none;
+      visibility: hidden;
+    }
+
+    .scroll-hint.is-hidden span {
+      animation: none;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.75; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes hintArrow {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
+    }
+
+    .grid.two {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .h-scroll {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      height: 100vh;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .grid.two,
+    main.grid {
+      display: contents;
+    }
+
+    .scenic {
+      position: relative;
+      width: 100vw;
+      min-height: 100vh;
+      padding: 90px 7vw;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 960px) minmax(0, 1fr);
+      align-items: center;
+      row-gap: 22px;
+      background-image:
+        linear-gradient(165deg, rgba(5, 6, 6, 0.93) 0%, rgba(7, 9, 8, 0.86) 45%, rgba(5, 6, 6, 0.96) 100%),
+        var(--bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      flex: 0 0 100vw;
+      scroll-snap-align: start;
+      overflow-y: auto;
+    }
+
+    .scenic > * {
+      grid-column: 2;
+    }
+
+    .scenic + .scenic {
+      border-top: 1px solid var(--line);
+    }
+
+    .glass.card {
+      width: min(960px, 100%);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    .scenic.glass.card {
+      width: 100%;
+      max-width: 100%;
+      background-color: rgba(7, 9, 8, 0.7);
+      background-image:
+        linear-gradient(165deg, rgba(6, 8, 7, 0.82) 0%, rgba(10, 12, 10, 0.7) 45%, rgba(6, 8, 7, 0.88) 100%),
+        var(--bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: 0;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 90px 7vw;
+      backdrop-filter: none;
+    }
+
+    .hero .hero-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+
+    h1, h2, h3 {
+      font-family: "Fraunces", "Times New Roman", serif;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 4vw, 4.6rem);
+      margin: 8px 0 10px;
+    }
+
+    .accent { color: var(--accent); }
+
+    .sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    p { line-height: 1.7; }
+    li { line-height: 1.6; }
+
+    code {
+      font-family: "Spline Sans", "Trebuchet MS", sans-serif;
+      font-size: 0.95em;
+      color: var(--accent-strong);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-title h2 {
+      flex: 1 1 260px;
+      min-width: 0;
+    }
+
+    .section-title .meta {
+      margin-top: 4px;
+      flex: 0 0 auto;
+    }
+
+    .meta {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.7rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(10, 14, 12, 0.6);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .kbd {
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgba(247, 245, 238, 0.2);
+      font-size: 0.7rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .btnrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(8, 12, 10, 0.6);
+      color: var(--ink);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: rgba(177, 209, 137, 0.2); border-color: rgba(177, 209, 137, 0.6); }
+    .btn.ghost { background: transparent; }
+
+    .callout {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(9, 12, 10, 0.5);
+    }
+
+    .callout.warn { border-color: rgba(255, 255, 255, 0.4); }
+    .tag { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.12em; }
+
+    .list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .dataset {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(9, 12, 10, 0.6);
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    #map {
+      margin-top: 12px;
+      height: 360px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .chartwrap {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(9, 12, 10, 0.6);
+      border-radius: 18px;
+      border: 1px solid var(--line);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 16px 0 10px;
+    }
+
+    .kpi-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(9, 12, 10, 0.6);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .kpi-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .kpi-value {
+      margin-top: 8px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .viz-placeholder {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(247, 245, 238, 0.35);
+      background: rgba(9, 12, 10, 0.45);
+    }
+
+    .viz-placeholder h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .viz-status {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+    }
+
+    .badge-live {
+      background: rgba(177, 209, 137, 0.2);
+      color: #d5ff3f;
+    }
+
+    .badge-demo {
+      background: rgba(247, 245, 238, 0.12);
+      color: var(--muted);
+    }
+
+    .note {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .code-tabs {
+      margin-top: 24px;
+      margin-bottom: 20px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #0b0f0c;
+      overflow: hidden;
+    }
+
+    .rdf-body {
+      display: grid;
+      gap: 22px;
+    }
+
+    .rdf-body .code-tabs {
+      margin: 0;
+    }
+
+    .rdf-list {
+      margin: 0 0 0 18px;
+    }
+
+    .tab-buttons {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      background: #0b0f0c;
+    }
+
+    .tab-button {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .tab-button.is-active {
+      color: var(--ink);
+      border-color: rgba(213, 255, 63, 0.6);
+      background: rgba(213, 255, 63, 0.12);
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 14px 16px 18px;
+    }
+
+    .tab-panel.is-active {
+      display: block;
+    }
+
+    .code-block {
+      margin: 0;
+      padding: 12px 14px;
+      background: #0d110e;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--ink);
+      white-space: pre;
+    }
+
+    .tab-panel .code-block {
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 1100px) {
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+
+    .scenario-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 20px 0 10px;
+    }
+
+    .scenario-figure {
+      margin: 0;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(9, 12, 10, 0.6);
+      overflow: hidden;
+    }
+
+    .scenario-figure img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      filter: saturate(0.9) contrast(1.02);
+      transform: translateY(var(--parallax-y, 0)) scale(1);
+      transition: transform 0.5s ease;
+      will-change: transform;
+    }
+
+    .scenario-figure:hover img {
+      transform: translateY(var(--parallax-y, 0)) scale(1.08);
+    }
+
+    @media (max-width: 1000px) {
+      .scenario-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .scenario-gallery { grid-template-columns: 1fr; }
+      .scenario-figure img { height: 220px; }
+    }
+
+    footer.glass.card {
+      margin-bottom: 40px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .scenic { padding: 80px 6vw; background-attachment: scroll; }
+      .glass.card { padding: 24px; border-radius: 20px; }
+      .nav { padding: 14px 5vw; }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="wrap">
+    <nav class="nav" aria-label="Section navigation">
+      <a href="#home">Home</a>
+      <a href="#introduction">Introduction</a>
+      <a href="#scenario">Scenario</a>
+      <a href="#datasets">Datasets</a>
+      <div class="dropdown" id="analysis-dropdown">
+        <button class="dropdown-toggle" type="button" aria-expanded="false" aria-controls="analysis-menu">
+          Analysis
+        </button>
+        <div class="dropdown-menu" id="analysis-menu" role="menu">
+          <a href="#quality" role="menuitem">Quality</a>
+          <a href="#legal" role="menuitem">Legal</a>
+          <a href="#ethics" role="menuitem">Ethics</a>
+          <a href="#technical" role="menuitem">Technical</a>
+        </div>
+      </div>
+      <a href="#sustainability">Sustainability</a>
+      <a href="#visualization">Visualization</a>
+      <a href="#rdf">RDF metadata</a>
+    </nav>
+
+    <div class="scroll-hint" id="scroll-hint">Horizontal scroll <span>→</span></div>
+
+    <div class="h-scroll">
+      <header id="home" class="hero glass card scenic reveal" style="--bg: url('./bg-01.webp');">
+      <div class="hero-top">
+        <div>
+          <div class="pill">Open Access & Digital Ethics <span class="kbd">CFU 6</span></div>
+          <h1>Madagascar Drought <span class="accent">Open Data Mash-Up</span></h1>
+          <p class="sub">
+            A citizen-oriented, reproducible project that curates open datasets to describe
+            spatial and temporal patterns of drought indicators in Madagascar, including DCAT-AP metadata and RDF.
+          </p>
+          <div class="badges">
+            <span class="pill">DCAT-AP + RDF</span>
+            <span class="pill">Map + chart</span>
+            <span class="pill">Legal & ethics</span>
+            <span class="pill">Sustainability</span>
+          </div>
+          <div class="btnrow">
+            <a class="btn primary" href="#visualization">View visualizations</a>
+            <a class="btn" href="#rdf">RDF metadata</a>
+            <a class="btn" href="./data/processed/mashup.csv">Download mashup CSV</a>
+          </div>
+        </div>
+
+        <div class="callout" style="max-width: 380px;">
+          <div class="tag"><strong>Ethical use note</strong></div>
+          <p style="margin:8px 0 0;">
+            This project uses <strong>aggregated regional indicators</strong>. It does not contain personal data,
+            does not profile individuals, and does not imply causal claims.
+          </p>
+        </div>
+      </div>
+    </header>
+
+      <div class="grid two">
+        <main class="grid" aria-live="polite">
+        <section id="home-overview" class="view glass card scenic reveal" style="--bg: url('./bg-02.webp');">
+          <div class="section-title">
+            <h2>Home</h2>
+            <div class="meta">Overview</div>
+          </div>
+          <p>
+            This one-page site provides project documentation, dataset metadata, and citizen-friendly
+            visualization of drought indicators in Madagascar.
+          </p>
+          <div class="btnrow">
+            <a class="btn primary" href="#visualization">Open visualization</a>
+            <a class="btn" href="#rdf">Open RDF metadata</a>
+          </div>
+        </section>
+
+        <section id="introduction" class="view glass card scenic reveal" style="--bg: url('./bg-03.webp');">
+          <div class="section-title">
+            <h2>1. Introduction</h2>
+            <div class="meta">Purpose & public interest</div>
+          </div>
+          <p>
+            Drought in Madagascar is not a distant headline; it is a recurring, place-specific reality that reshapes
+            harvests, water access, and local resilience. Yet the public story is often fragmented—numbers scattered
+            across reports, maps published without context, and indicators hard to compare across time and regions.
+          </p>
+          <p>
+            This project offers a clear, citizen‑friendly entry point into that complexity. It brings together trusted
+            open datasets, aligns them by region, and translates them into visual, readable outputs that help people
+            understand where drought pressures are concentrated and how they evolve. The goal is not prediction or
+            alarmism, but transparent, reproducible insight.
+          </p>
+          <p>
+            The reuse hypothesis behind this project is that heterogeneous open datasets—when aligned at a common
+            regional scale and documented with transparent metadata—can support fair and bias-aware interpretations
+            of climate vulnerability without relying on personal or sensitive data.
+          </p>
+          <p>
+            The unit of analysis is the administrative region (ADM1), chosen to balance spatial detail with data
+            availability and to avoid misleading comparisons at overly granular levels.
+          </p>
+          <p>
+            The project does not aim to provide forecasts, early-warning systems, or causal explanations. Instead, it
+            focuses on descriptive transparency: making existing indicators comparable, traceable, and accessible
+            without overstating their precision or policy implications.
+          </p>
+          <p>
+            From the start, the work is grounded in open data ethics: clear licensing, documented provenance, and
+            careful aggregation that avoids individual-level inference. The result is a small but rigorous public
+            resource—part narrative, part dashboard—designed for students, journalists, and citizens who want to
+            explore climate vulnerability through evidence they can trace, question, and reuse over time.
+          </p>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="scenario" class="view glass card scenic reveal" style="--bg: url('./bg-04.webp');">
+          <div class="section-title">
+            <h2>2. Scenario</h2>
+            <div class="meta">Research question & scope</div>
+          </div>
+          <p>
+            Madagascar is one of the countries most exposed to the impacts of climate variability,
+            with recurrent droughts affecting large parts of its territory. These phenomena have
+            direct consequences on food security, agricultural productivity, access to water, and
+            the resilience of local communities.
+          </p>
+          <p>
+            In recent years, drought episodes in southern and central regions of Madagascar have
+            attracted international attention, often described as humanitarian emergencies.
+            However, public understanding of these events is frequently fragmented, relying on
+            isolated indicators or media narratives that lack territorial and temporal context.
+          </p>
+          <p>
+            This project is grounded in the idea that open data can play a crucial role in improving
+            transparency and public awareness around climate-related phenomena. By reusing and
+            integrating heterogeneous open datasets, it becomes possible to move beyond anecdotal
+            descriptions and provide a structured, data-driven overview of drought conditions at
+            the regional level.
+          </p>
+
+          <div class="scenario-gallery">
+            <figure class="scenario-figure">
+              <img src="./pic1.jpg" alt="Dense tropical forest canopy in Madagascar" class="parallax-media" />
+            </figure>
+            <figure class="scenario-figure">
+              <img src="./pic2.jpg" alt="Tropical vegetation and wetland area in Madagascar" class="parallax-media" />
+            </figure>
+            <figure class="scenario-figure">
+              <img src="./pic3.jpg" alt="Forest edge with layered tropical vegetation" class="parallax-media" />
+            </figure>
+          </div>
+
+          <h3>Reuse hypothesis</h3>
+          <p>
+            The reuse hypothesis underlying this project is that combining climate indicators with
+            territorial boundaries through a mash-up of open datasets enables a more meaningful
+            interpretation of drought patterns than the use of single datasets in isolation.
+          </p>
+          <p>
+            In particular, spatial aggregation at the regional level allows users to explore how
+            drought-related indicators vary across the territory, supporting comparative analysis
+            while avoiding individual-level or sensitive data.
+          </p>
+
+          <h3>Public interest and target audience</h3>
+          <p>
+            The project is designed for a broad audience, including citizens, journalists,
+            researchers, and public institutions interested in climate vulnerability and
+            environmental sustainability.
+          </p>
+          <p>
+            The results are presented through human-readable visualizations and are published
+            using open standards to ensure accessibility and reuse. No prior technical knowledge
+            is required to explore the visual outputs, while machine-readable metadata supports
+            integration into open data catalogs and further analytical reuse.
+          </p>
+
+          <h3>Ethical framing and limitations</h3>
+          <p>
+            The project does not aim to predict future drought events, assess individual risk, or
+            support operational decision-making. Instead, it provides an exploratory and descriptive
+            view of aggregated indicators derived from open data sources.
+          </p>
+          <p>
+            By focusing exclusively on aggregated regional data, the project avoids the use of
+            personal or sensitive information and mitigates the risk of misinterpretation,
+            stigmatization, or discriminatory use of the data.
+          </p>
+          <p>
+            All interpretations should be considered within the limits of the underlying datasets,
+            their update frequency, and their original purposes. The visualizations are intended
+            to support awareness and understanding, not to replace domain-specific analyses.
+          </p>
+          <div class="callout warn" style="margin-top:12px;">
+            <div class="tag"><strong>What this project does not do</strong></div>
+            <ul>
+              <li>No individual-level data or profiling.</li>
+              <li>No causal claims (correlation != causation).</li>
+              <li>No ranking of "worst communities" without context.</li>
+            </ul>
+          </div>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="datasets" class="view glass card scenic reveal" style="--bg: url('./bg-05.webp');">
+          <div class="section-title">
+            <h2>3. Original datasets and mash-up datasets</h2>
+            <div class="meta">Provenance / formats / licenses</div>
+          </div>
+
+          <h3 style="margin:10px 0 8px;">Original datasets</h3>
+          <div class="list">
+            <div class="dataset">
+              <div class="name">FAO - drought / water stress indicators</div>
+              <p class="desc">Aggregated indicators for drought and water stress. Format: CSV. License: CC BY 3.0 IGO.</p>
+              <div class="row">
+                <span class="pill">CSV</span>
+                <span class="pill">CC BY 3.0 IGO</span>
+                <span class="pill">Provenance: UN</span>
+              </div>
+            </div>
+            <div class="dataset">
+              <div class="name">Copernicus - Global Drought Observatory indicators</div>
+              <p class="desc">Climate-related drought indicators (e.g., anomalies/soil moisture). Format: NetCDF/CSV. License: CC BY 4.0.</p>
+              <div class="row">
+                <span class="pill">NetCDF -> CSV</span>
+                <span class="pill">CC BY 4.0</span>
+                <span class="pill">Provenance: EU</span>
+              </div>
+            </div>
+            <div class="dataset">
+              <div class="name">HDX/OCHA - administrative boundaries (ADM1/ADM2)</div>
+              <p class="desc">Administrative boundaries for spatial aggregation and mapping. Format: GeoJSON. License: CC BY / ODC-BY (as published).</p>
+              <div class="row">
+                <span class="pill">GeoJSON</span>
+                <span class="pill">Boundaries</span>
+                <span class="pill">Provenance: UN/OCHA</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:14px 0 8px;">Mash-up dataset (output)</h3>
+          <div class="dataset">
+            <div class="name">Madagascar drought mash-up</div>
+            <p class="desc">
+              Aggregated dataset by region combining drought indicators from multiple sources.
+              Outputs: <a href="./data/processed/mashup.csv">CSV</a> and <a href="./data/processed/regions.geojson">GeoJSON</a>.
+            </p>
+            <div class="row">
+              <span class="pill">Output: CSV</span>
+              <span class="pill">Output: GeoJSON</span>
+              <span class="pill">Metadata: DCAT-AP (RDF)</span>
+            </div>
+          </div>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="quality" class="view glass card scenic reveal" style="--bg: url('./bg-06.webp');">
+          <div class="section-title">
+            <h2>4. Quality analysis of the datasets</h2>
+            <div class="meta">Completeness / consistency / timeliness</div>
+          </div>
+          <p><!-- Person A will paste quality findings here --></p>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="legal" class="view glass card scenic reveal" style="--bg: url('./bg-07.webp');">
+          <div class="section-title">
+            <h2>5. Legal analysis</h2>
+            <div class="meta">Ownership / licenses / privacy</div>
+          </div>
+          <p><!-- Person A will paste legal analysis here --></p>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="ethics" class="view glass card scenic reveal" style="--bg: url('./bg-08.webp');">
+          <div class="section-title">
+            <h2>6. Ethics analysis</h2>
+            <div class="meta">Fairness / bias / do-no-harm</div>
+          </div>
+          <p><!-- Person A will paste ethics analysis here --></p>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="technical" class="view glass card scenic reveal" style="--bg: url('./bg-09.webp');">
+          <div class="section-title">
+            <h2>7. Technical analysis (formats, metadata, URI, provenance)</h2>
+            <div class="meta">Formats / metadata / URI / provenance</div>
+          </div>
+          <p>
+            This technical analysis describes the formats, metadata model, identification strategy,
+            and provenance mechanisms adopted in the project to support transparency, interoperability,
+            and reuse in accordance with the EU Open Data Guidelines.
+          </p>
+          <p>
+            The project is designed to produce reusable and interoperable outputs by combining
+            open data formats with semantic web technologies and standard metadata vocabularies.
+          </p>
+
+          <h3>Formats</h3>
+          <p>
+            Original datasets are provided in open, machine-readable formats, including CSV for
+            statistical indicators and GeoJSON for administrative boundaries. These formats are
+            widely supported and suitable for both analysis and public dissemination.
+          </p>
+          <p>
+            The data processing workflow produces aggregated mash-up datasets that are published
+            as CSV for tabular reuse and as GeoJSON to support spatial visualization. In addition,
+            dataset metadata is published in RDF/Turtle format to enable Linked Open Data reuse
+            and semantic interoperability.
+          </p>
+          <p><strong>Formats summary:</strong></p>
+          <ul>
+            <li><strong>Inputs:</strong> CSV (statistical indicators), GeoJSON (administrative boundaries)</li>
+            <li><strong>Outputs:</strong> CSV (mash-up dataset), GeoJSON (regions for mapping), RDF/Turtle (metadata)</li>
+          </ul>
+
+          <h3>Metadata and Linked Open Data</h3>
+          <p>
+            Dataset metadata is modeled using the DCAT-AP application profile, which is the reference
+            standard for describing open datasets in the European context. DCAT-AP ensures
+            interoperability with European open data portals and supports automated discovery
+            and reuse.
+          </p>
+          <p>
+            The metadata describes both the original datasets and the mash-up output dataset,
+            including titles, descriptions, publishers, licenses, spatial coverage, and available
+            distributions. Licenses are expressed as resolvable URIs to ensure legal clarity
+            and machine-readability.
+          </p>
+
+          <h3>URI strategy</h3>
+          <p>
+            The project adopts a stable base URI rooted in the GitHub Pages domain:
+            <code>https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>.
+          </p>
+          <p>Specific resources are identified as follows:</p>
+          <ul>
+            <li><strong>Catalog:</strong> <code>.../rdf/catalog.ttl</code></li>
+            <li><strong>Datasets metadata:</strong> <code>.../rdf/datasets.ttl</code></li>
+            <li><strong>Mash-up dataset identifier:</strong> <code>.../#dataset-mashup</code></li>
+          </ul>
+
+          <h3>Vocabularies</h3>
+          <p>
+            The RDF metadata relies exclusively on well-established and widely adopted vocabularies,
+            in order to maximize interoperability and avoid unnecessary complexity.
+          </p>
+          <ul>
+            <li><code>dcat:</code> Description of datasets and distributions</li>
+            <li><code>dct:</code> Titles, descriptions, licenses, spatial and temporal properties</li>
+            <li><code>prov:</code> Provenance relations (<code>prov:wasDerivedFrom</code>)</li>
+          </ul>
+
+          <h3>Provenance</h3>
+          <p>
+            The mash-up dataset is explicitly documented as derived from the original source datasets
+            using the PROV-O property <code>prov:wasDerivedFrom</code>. This provenance information makes the
+            data integration process transparent and supports reproducibility of the workflow.
+          </p>
+          <p>
+            By documenting how output datasets are produced from their sources, the project
+            enables informed reuse and long-term maintenance of the datasets.
+          </p>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="sustainability" class="view glass card scenic reveal" style="--bg: url('./bg-10.webp');">
+          <div class="section-title">
+            <h2>8. Sustainability of updates over time</h2>
+            <div class="meta">Lifecycle / reproducibility / versioning</div>
+          </div>
+          <h3>Dataset lifecycle, reproducibility, and versioning</h3>
+          <p>
+            The datasets used in this project are published by international and public institutions
+            and are periodically updated according to their respective publication policies. The
+            project is designed to support sustainable reuse by clearly separating the data lifecycle
+            into distinct phases: original datasets (input), curated mash-up datasets (processed), and
+            published outputs (visualizations and Linked Open Data).
+          </p>
+          <p>
+            The entire workflow is reproducible and documented through open-source code, version
+            control, and structured metadata. Dataset updates can be integrated by re-running the
+            processing pipeline and regenerating the output datasets without modifying the visualization
+            or publication layers.
+          </p>
+          <p>
+            Versioning is managed through the GitHub repository, where each update to the datasets,
+            metadata, or RDF assertions is tracked and documented. Changes in the mash-up dataset
+            trigger corresponding updates in the DCAT-AP metadata and RDF serializations, ensuring
+            consistency between data, documentation, and licenses.
+          </p>
+          <p>
+            The publication architecture—based on open formats (CSV, GeoJSON, RDF), persistent URIs,
+            and GitHub Pages—supports long-term accessibility and reuse by third parties. This design
+            enables future extensions of the project, including the addition of new indicators,
+            temporal dimensions, or updated geographic boundaries, while preserving transparency and
+            reproducibility over time.
+          </p>
+          <p>
+            As a sustainability measure, any changes in source data, methodology, or assumptions are
+            documented alongside the updated outputs to preserve interpretability for users over time.
+          </p>
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="visualization" class="view glass card scenic reveal" style="--bg: url('./bg-11.webp');">
+          <div class="section-title">
+            <h2>9. Visualization</h2>
+            <div class="meta">Citizen-friendly / human-readable</div>
+          </div>
+          <p>
+            This section presents visualizations designed to support public understanding of
+            drought patterns in Madagascar. All visualizations are based on aggregated regional
+            data and are intended for descriptive purposes only.
+          </p>
+          <p>
+            The visualizations do not establish causal relationships, do not provide predictions,
+            and do not evaluate individual behaviors or communities.
+          </p>
+
+          <h3>Snapshot KPIs</h3>
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label">Average drought index (selected period)</div>
+              <div class="kpi-value" id="kpi-avg">—</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Highest drought region</div>
+              <div class="kpi-value" id="kpi-max">—</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Lowest drought region</div>
+              <div class="kpi-value" id="kpi-min">—</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Data coverage (months/years)</div>
+              <div class="kpi-value" id="kpi-coverage">—</div>
+            </div>
+          </div>
+          <p class="viz-status">
+            Status: Pending final mash-up dataset. This visualization will be populated automatically
+            once the curated mashup.csv is published.
+          </p>
+
+          <h3>Map visualization</h3>
+          <p>
+            The map displays an aggregated drought indicator at regional level. Each region is
+            represented by a single value summarizing drought conditions for a given period.
+            Users can click on a region to view the indicator value.
+          </p>
+          <p>
+            <strong>How to read the map:</strong> higher values indicate stronger drought conditions
+            according to the selected indicator. Comparisons are meaningful only within the same
+            time period and spatial aggregation level.
+          </p>
+
+          <div id="map"></div>
+
+          <div class="viz-placeholder">
+            <h4>Top 10 regions by drought index (placeholder)</h4>
+            <p>
+              This ranking will show the most affected regions for the selected period, based on
+              drought_index from the final mash-up dataset.
+            </p>
+            <div class="viz-status">
+              Status: Pending final mash-up dataset. This visualization will be populated automatically
+              once the curated mashup.csv is published.
+            </div>
+          </div>
+
+          <div class="chart-header">
+            <h3>Time series visualization</h3>
+            <span id="ts-badge" class="badge badge-demo">Demo (placeholder)</span>
+          </div>
+          <p class="note" id="ts-note">
+            This chart will use the curated mash-up dataset once temporal indicators (date/month/year) are available.
+          </p>
+          <p>
+            The time series chart illustrates the temporal evolution of the drought indicator for
+            a selected region. It allows users to observe trends and seasonal variations over time.
+          </p>
+          <p>
+            <strong>Limitations:</strong> the visualizations depend on the availability and quality of
+            the original datasets. Spatial coverage and temporal resolution may vary across regions
+            and periods.
+          </p>
+          <div class="chartwrap">
+            <canvas id="droughtChart" width="900" height="320"></canvas>
+          </div>
+
+          <div class="viz-placeholder">
+            <h4>Agriculture share vs drought index (placeholder)</h4>
+            <p>
+              Scatter plot showing the relationship between agricultural land share and drought index,
+              with each point representing a region.
+            </p>
+            <div class="viz-status">
+              Status: Pending final mash-up dataset. This visualization will be populated automatically
+              once the curated mashup.csv is published.
+            </div>
+          </div>
+
+          <div class="viz-placeholder">
+            <h4>Data quality & coverage (placeholder)</h4>
+            <p>
+              Mini chart summarizing missing values per indicator and overall coverage across regions.
+            </p>
+            <div class="viz-status">
+              Status: Pending final mash-up dataset. This visualization will be populated automatically
+              once the curated mashup.csv is published.
+            </div>
+          </div>
+
+          <div class="btnrow">
+            <a class="btn ghost" href="#home">Back to Home</a>
+          </div>
+        </section>
+
+        <section id="rdf" class="view glass card scenic reveal" style="--bg: url('./bg-12.webp');">
+          <div class="section-title">
+            <h2>10. RDF assertion of the metadata</h2>
+            <div class="meta">DCAT-AP / license / provenance</div>
+          </div>
+          <p>
+            Metadata is published as Linked Open Data using RDF and the DCAT-AP application profile.
+          </p>
+          <div class="btnrow">
+            <a class="btn primary" href="./rdf/catalog.ttl">DCAT-AP Catalog (RDF)</a>
+            <a class="btn" href="./rdf/datasets.ttl">Datasets metadata (RDF)</a>
+          </div>
+          <h3 style="margin-top:14px;">What is published as RDF</h3>
+          <div class="rdf-body">
+            <ul class="rdf-list">
+              <li><strong>DCAT-AP catalog</strong> describing the project and the list of datasets.</li>
+              <li><strong>DCAT-AP dataset metadata</strong> for each original dataset and the mash-up dataset.</li>
+              <li><strong>Distributions</strong> linking to CSV and GeoJSON files used for analysis and visualization.</li>
+              <li><strong>License references</strong> using resolvable URIs (Creative Commons).</li>
+              <li><strong>Provenance</strong> linking the mash-up dataset to original sources via PROV-O.</li>
+            </ul>
+            <div class="btnrow">
+              <a class="btn ghost" href="#home">Back to Home</a>
+            </div>
+            <div class="code-tabs" data-tabs="rdf">
+              <div class="tab-buttons" role="tablist" aria-label="RDF files">
+                <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="rdf-catalog">catalog.ttl</button>
+                <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="rdf-datasets">datasets.ttl</button>
+              </div>
+              <div class="tab-panel is-active" role="tabpanel" id="rdf-catalog">
+                <pre class="code-block"><code>@prefix dcat: &lt;http://www.w3.org/ns/dcat#&gt; .
+@prefix dct: &lt;http://purl.org/dc/terms/&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/catalog&gt;
+  a dcat:Catalog ;
+  dct:title "Open Data Analysis of Drought in Madagascar"@en ;
+  dct:conformsTo &lt;https://semiceu.github.io/DCAT-AP/releases/2.1.1/&gt; ;
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dct:publisher [
+    a foaf:Organization ;
+    foaf:name "Student Project – Open Access and Digital Ethics"
+  ] ;
+  dct:language &lt;http://publications.europa.eu/resource/authority/language/ENG&gt; ;
+  dcat:dataset
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt; .</code></pre>
+              </div>
+              <div class="tab-panel" role="tabpanel" id="rdf-datasets">
+                <pre class="code-block"><code>@prefix dcat: &lt;http://www.w3.org/ns/dcat#&gt; .
+@prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix adms: &lt;http://www.w3.org/ns/adms#&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;#dataset-mashup&gt;
+  a dcat:Dataset ;
+  adms:identifier "mdg-drought-mashup" ;
+  dct:title "Drought indicators in Madagascar (mash-up dataset)"@en ;
+  dct:description "Curated and aggregated mash-up of drought-related indicators at ADM1 regional level for Madagascar. Produced for a student project on Open Access and Digital Ethics."@en ;
+  dcat:theme &lt;http://publications.europa.eu/resource/authority/data-theme/ENVI&gt; ;
+  dct:spatial &lt;http://sws.geonames.org/1062947/&gt; ;
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dct:issued "2026-01-19"^^xsd:date ;
+  dct:modified "2026-01-19"^^xsd:date ;
+  prov:wasDerivedFrom &lt;#dataset-fao&gt;, &lt;#dataset-copernicus&gt;, &lt;#dataset-regions&gt; ;
+  dcat:distribution &lt;#dist-mashup-csv&gt; .
+
+&lt;#dataset-regions&gt;
+  a dcat:Dataset ;
+  adms:identifier "mdg-regions-adm1-geoboundaries" ;
+  dct:title "Madagascar administrative regions (ADM1) – geoBoundaries"@en ;
+  dct:description "Administrative boundaries for Madagascar at ADM1 level, reused to support regional aggregation and mapping."@en ;
+  dcat:theme &lt;http://publications.europa.eu/resource/authority/data-theme/REGI&gt; ;
+  dct:spatial &lt;http://sws.geonames.org/1062947/&gt; ;
+  dct:license &lt;https://www.geoboundaries.org/&gt; ;
+  dcat:distribution &lt;#dist-regions-geojson&gt; .
+
+&lt;#dataset-fao&gt;
+  a dcat:Dataset ;
+  adms:identifier "fao-water-stress-mdg" ;
+  dct:title "FAO drought and water stress indicators for Madagascar"@en ;
+  dct:publisher &lt;http://www.fao.org/&gt; ;
+  dct:license &lt;https://creativecommons.org/licenses/by/3.0/igo/&gt; ;
+  dct:description "License and terms as declared by the source."@en .
+
+&lt;#dataset-copernicus&gt;
+  a dcat:Dataset ;
+  adms:identifier "copernicus-drought-mdg" ;
+  dct:title "Copernicus drought indicators for Madagascar (source dataset)"@en ;
+  dct:publisher &lt;https://www.copernicus.eu/&gt; ;
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dct:description "License and terms as declared by the source."@en .
+
+&lt;#dist-mashup-csv&gt;
+  a dcat:Distribution ;
+  adms:identifier "dist-mashup-csv" ;
+  dct:title "Mash-up dataset (CSV)"@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
+  dcat:mediaType "text/csv" ;
+  dcat:accessURL &lt;https://arinee01.github.io/madagascar-drought-open-data/&gt; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/mashup.csv&gt; .
+
+&lt;#dist-regions-geojson&gt;
+  a dcat:Distribution ;
+  adms:identifier "dist-regions-geojson" ;
+  dct:title "Administrative regions ADM1 (GeoJSON)"@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/GEOJSON&gt; ;
+  dcat:mediaType "application/geo+json" ;
+  dcat:accessURL &lt;https://arinee01.github.io/madagascar-drought-open-data/&gt; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/regions.geojson&gt; .</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="glass card scenic reveal" style="--bg: url('./bg-13.webp');">
+          <p>
+            <a href="https://github.com/arinee01/madagascar-drought-open-data/">GitHub repository</a> 
+            | <a href="./LICENSE">MIT License</a>
+            | Open Access & Digital Ethics (CFU 6)
+          </p>
+        </footer>
+      </main>
+
+      <aside class="grid scenic reveal" style="--bg: url('./bg-14.webp');">
+        <div class="glass card">
+          <div class="section-title">
+            <h2>Quick links</h2>
+            <div class="meta">Downloads</div>
+          </div>
+          <div class="btnrow">
+            <a class="btn" href="./data/processed/mashup.csv">Mashup CSV</a>
+            <a class="btn" href="./data/processed/regions.geojson">Regions GeoJSON</a>
+            <a class="btn" href="./rdf/datasets.ttl">RDF datasets</a>
+          </div>
+          <p class="meta" style="margin-top:10px;">
+            If processed files are not yet available, the visualizations load demo placeholders automatically.
+          </p>
+        </div>
+
+        <div class="glass card">
+          <div class="section-title">
+            <h2>Project checklist</h2>
+            <div class="meta">Course requirements</div>
+          </div>
+          <ul>
+            <li>Bias-aware reuse hypothesis</li>
+            <li>Mash-up with multiple licenses</li>
+            <li>Legal + ethics analysis</li>
+            <li>DCAT-AP metadata + license RDF</li>
+            <li>Citizen-friendly visualizations</li>
+            <li>Sustainability & lifecycle</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    let vizState = { map: null, chart: null, layer: null, geo: null, mashupData: [] };
+
+    function initVisualization() {
+      if (!vizState.map) {
+        const map = L.map('map').setView([-18.9, 47.6], 7);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        async function fetchWithFallback(primaryUrl, fallbackUrl) {
+          try {
+            const res = await fetch(primaryUrl);
+            if (!res.ok) throw new Error('Primary not available');
+            return await res.text();
+          } catch (e) {
+            const res2 = await fetch(fallbackUrl);
+            return await res2.text();
+          }
+        }
+
+        async function loadGeoJSONData(url) {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('GeoJSON not available');
+          return await res.json();
+        }
+
+        function parseCSV(text) {
+          const lines = text.trim().split(/\r?\n/);
+          if (!lines.length) return [];
+          const headers = lines[0].split(',').map(h => h.trim());
+          return lines.slice(1).map(line => {
+            const cols = line.split(',').map(c => c.trim());
+            const row = {};
+            headers.forEach((h, i) => {
+              row[h] = cols[i];
+            });
+            return row;
+          });
+        }
+
+        async function loadMashup() {
+          try {
+            const res = await fetch('./data/processed/mashup.csv');
+            if (!res.ok) throw new Error('No mashup yet');
+            const text = await res.text();
+            vizState.mashupData = parseCSV(text);
+            onMashupLoaded(vizState.mashupData);
+          } catch (e) {
+            console.info('Mashup not available yet — placeholders active');
+            updateTimeSeriesSmart([]);
+          }
+        }
+
+        function updateMap(data) {
+          if (!vizState.geo || !vizState.layer) return;
+          const mapByRegion = new Map();
+          data.forEach(d => {
+            const key = (d.region_name ?? '').trim().toLowerCase();
+            if (key) mapByRegion.set(key, d);
+          });
+
+          vizState.geo.features.forEach(f => {
+            const key = (f.properties?.shapeName ?? '').trim().toLowerCase();
+            if (key && mapByRegion.has(key)) {
+              Object.assign(f.properties, mapByRegion.get(key));
+            }
+          });
+
+          if (vizState.styleFeature) {
+            vizState.layer.setStyle(vizState.styleFeature);
+          }
+        }
+
+        function updateKPIs(data) {
+          const rows = data
+            .map(d => ({
+              name: d.region_name ?? '',
+              value: Number(d.drought_index)
+            }))
+            .filter(d => !Number.isNaN(d.value));
+
+          if (!rows.length) return;
+
+          const values = rows.map(d => d.value);
+          const avg = values.reduce((a, b) => a + b, 0) / values.length;
+          const maxRow = rows.reduce((a, b) => (a.value > b.value ? a : b));
+          const minRow = rows.reduce((a, b) => (a.value < b.value ? a : b));
+
+          document.getElementById('kpi-avg').textContent = avg.toFixed(2);
+          document.getElementById('kpi-max').textContent = maxRow.name
+            ? `${maxRow.name} (${maxRow.value.toFixed(2)})`
+            : maxRow.value.toFixed(2);
+          document.getElementById('kpi-min').textContent = minRow.name
+            ? `${minRow.name} (${minRow.value.toFixed(2)})`
+            : minRow.value.toFixed(2);
+        }
+
+        function updateTimeSeries(data) {
+          if (!data.length) return;
+          if (vizState.chart) {
+            vizState.chart.destroy();
+            vizState.chart = null;
+          }
+
+          const labels = [];
+          const values = [];
+
+          data.forEach(d => {
+            const label = d.date ?? d.month ?? d.year;
+            if (label == null) return;
+            labels.push(label);
+            values.push(Number(d.drought_index));
+          });
+
+          const ctx = document.getElementById('droughtChart').getContext('2d');
+          vizState.chart = new Chart(ctx, {
+            type: 'line',
+            data: { labels, datasets: [{ label: 'Drought index', data: values }] },
+            options: { responsive: true, scales: { y: { suggestedMin: 0, suggestedMax: 1 } } }
+          });
+        }
+
+        function hasTimeSeries(data) {
+          if (!data || !data.length) return false;
+          const cols = Object.keys(data[0]);
+          return cols.includes('date') || cols.includes('month') || cols.includes('year');
+        }
+
+        async function updateTimeSeriesSmart(mashupData) {
+          const badge = document.getElementById('ts-badge');
+          const note = document.getElementById('ts-note');
+
+          if (hasTimeSeries(mashupData)) {
+            if (badge) {
+              badge.textContent = 'Live';
+              badge.className = 'badge badge-live';
+            }
+            if (note) note.textContent = 'This chart is generated from the current mashup.csv dataset.';
+            updateTimeSeries(mashupData);
+            return;
+          }
+
+          if (badge) {
+            badge.textContent = 'Demo (placeholder)';
+            badge.className = 'badge badge-demo';
+          }
+          if (note) {
+            note.textContent = 'This chart will use the curated mash-up dataset once temporal indicators (date/month/year) are available.';
+          }
+
+          try {
+            const stubText = await fetchWithFallback('./data/processed/mashup.csv', './data/viz/mashup_stub.csv');
+            const stub = parseCSV(stubText);
+            if (hasTimeSeries(stub)) {
+              updateTimeSeries(stub);
+            }
+          } catch (e) {}
+        }
+
+        function updateRanking(data) {
+          if (!data.length) return;
+        }
+
+        function onMashupLoaded(data) {
+          updateMap(data);
+          updateKPIs(data);
+          updateTimeSeriesSmart(data);
+          updateRanking(data);
+        }
+
+        async function loadGeoJSON() {
+          let geo;
+          try {
+            geo = await loadGeoJSONData('./data/processed/regions.geojson');
+          } catch (e) {
+            geo = await loadGeoJSONData('./data/viz/regions_stub.geojson');
+          }
+          vizState.geo = geo;
+
+          function getFeatureCenter(feature, layer) {
+            try {
+              const geom = feature.geometry;
+              if (!geom) return layer.getBounds().getCenter();
+
+              const type = geom.type;
+              const polygons = type === 'Polygon' ? [geom.coordinates]
+                : type === 'MultiPolygon' ? geom.coordinates
+                : null;
+
+              if (!polygons) return layer.getBounds().getCenter();
+
+              let areaSum = 0;
+              let cxSum = 0;
+              let cySum = 0;
+
+              polygons.forEach(poly => {
+                const ring = poly[0];
+                if (!ring || ring.length < 3) return;
+                let area = 0;
+                let cx = 0;
+                let cy = 0;
+                for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+                  const [x0, y0] = ring[j];
+                  const [x1, y1] = ring[i];
+                  const f = (x0 * y1) - (x1 * y0);
+                  area += f;
+                  cx += (x0 + x1) * f;
+                  cy += (y0 + y1) * f;
+                }
+                area *= 0.5;
+                if (area !== 0) {
+                  cx /= (6 * area);
+                  cy /= (6 * area);
+                  areaSum += area;
+                  cxSum += cx * area;
+                  cySum += cy * area;
+                }
+              });
+
+              if (areaSum !== 0) {
+                return L.latLng(cySum / areaSum, cxSum / areaSum);
+              }
+            } catch (e) {}
+
+            return layer.getBounds().getCenter();
+          }
+
+          function getColor(v) {
+            if (v == null || Number.isNaN(v)) return 'transparent';
+            if (v > 0.8) return '#1b4332';
+            if (v > 0.6) return '#2d6a4f';
+            if (v > 0.4) return '#40916c';
+            if (v > 0.2) return '#74c69d';
+            return '#b7e4c7';
+          }
+
+          function styleFeature(feature) {
+            const p = feature.properties || {};
+            const v = p.drought_index;
+
+            return {
+              weight: 1,
+              opacity: 0.9,
+              color: '#7aa6a6',
+              fillOpacity: 0.25,
+              fillColor: (typeof v === 'number') ? getColor(v) : '#234038'
+            };
+          }
+
+          let selectedLayer = null;
+
+          function highlight(e) {
+            const l = e.target;
+            l.setStyle({ weight: 2, fillOpacity: 0.4, fillColor: '#3c7a5c' });
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) l.bringToFront();
+          }
+
+          function resetHighlight(e) {
+            if (selectedLayer && e.target === selectedLayer) return;
+            layer.resetStyle(e.target);
+          }
+
+          function selectRegion(e) {
+            if (selectedLayer) layer.resetStyle(selectedLayer);
+            selectedLayer = e.target;
+            selectedLayer.setStyle({ weight: 3, fillOpacity: 0.55, fillColor: '#4aa378' });
+            selectedLayer.bringToFront();
+          }
+
+          function onEachFeature(feature, l) {
+            const p = feature.properties || {};
+            const name = p.shapeName ?? 'Unknown';
+            const drought = (p.drought_index ?? 'n/a');
+            const water = (p.water_stress_level ?? 'n/a');
+            const precip = (p.precipitation_anomaly ?? 'n/a');
+            const soil = (p.soil_moisture ?? 'n/a');
+            const agri = (p.agricultural_land_percentage ?? 'n/a');
+
+            l.bindPopup(`
+              <strong>${name}</strong><br/>
+              <b>Drought index:</b> ${drought}<br/>
+              Water stress: ${water}<br/>
+              Precipitation anomaly: ${precip}<br/>
+              Soil moisture: ${soil}<br/>
+              Agricultural land %: ${agri}<br/>
+              <small>Source: mashup.csv (joined by region_name = shapeName)</small>
+            `);
+
+            l.on({
+              mouseover: highlight,
+              mouseout: resetHighlight,
+              click: (e) => {
+                selectRegion(e);
+                l.openPopup();
+              }
+            });
+          }
+
+          const layer = L.geoJSON(geo, {
+            style: styleFeature,
+            onEachFeature: onEachFeature
+          }).addTo(map);
+
+          try { map.fitBounds(layer.getBounds()); } catch (e) {}
+          vizState.layer = layer;
+          vizState.styleFeature = styleFeature;
+          if (vizState.mashupData.length) {
+            updateMap(vizState.mashupData);
+          }
+        }
+
+        async function loadCSV() {
+          const primary = './data/processed/mashup.csv';
+          const fallback = './data/viz/mashup_stub.csv';
+          const text = await fetchWithFallback(primary, fallback);
+
+          const lines = text.trim().split('\n');
+          const header = lines.shift().split(',');
+          const idxMonth = header.indexOf('month');
+          const idxVal = header.indexOf('drought_index');
+
+          const labels = [];
+          const values = [];
+
+          for (const line of lines) {
+            const cols = line.split(',');
+            labels.push(cols[idxMonth]);
+            values.push(Number(cols[idxVal]));
+          }
+
+          const ctx = document.getElementById('droughtChart').getContext('2d');
+          const chart = new Chart(ctx, {
+            type: 'line',
+            data: { labels, datasets: [{ label: 'Drought index', data: values }] },
+            options: { responsive: true, scales: { y: { suggestedMin: 0, suggestedMax: 1 } } }
+          });
+          vizState.chart = chart;
+        }
+
+        loadGeoJSON();
+        loadMashup();
+        vizState.map = map;
+
+      } else {
+        requestAnimationFrame(() => {
+          vizState.map.invalidateSize();
+        });
+      }
+    }
+
+    function observeReveals() {
+      const revealTargets = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      revealTargets.forEach(target => observer.observe(target));
+    }
+
+    function observeVisualization() {
+      const vizSection = document.getElementById('visualization');
+      if (!vizSection) return;
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            initVisualization();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      observer.observe(vizSection);
+    }
+
+    function enableParallaxMedia() {
+      const sections = Array.from(document.querySelectorAll('.scenic'));
+      sections.forEach(section => {
+        const media = Array.from(section.querySelectorAll('.parallax-media'));
+        if (!media.length) return;
+
+        const update = () => {
+          const maxScroll = section.scrollHeight - section.clientHeight;
+          const progress = maxScroll > 0 ? section.scrollTop / maxScroll : 0;
+          const offset = (progress - 0.5) * 24;
+          media.forEach(el => {
+            el.style.setProperty('--parallax-y', `${offset}px`);
+          });
+        };
+
+        update();
+        section.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+      });
+    }
+
+    function enableHorizontalScroll() {
+      const scroller = document.querySelector('.h-scroll');
+      if (!scroller) return;
+
+      const hint = document.getElementById('scroll-hint');
+      const navLinks = Array.from(document.querySelectorAll('.nav a[href^="#"]'));
+      const sections = navLinks
+        .map(link => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+
+      function setActiveSection(activeId) {
+        navLinks.forEach(link => {
+          link.classList.toggle('is-active', link.getAttribute('href') === `#${activeId}`);
+        });
+      }
+
+      scroller.addEventListener('wheel', event => {
+        const isVertical = Math.abs(event.deltaY) > Math.abs(event.deltaX);
+        if (hint) hint.classList.add('is-hidden');
+        if (!isVertical) return;
+
+        const section = event.target.closest('.scenic');
+        if (section) {
+          const canScroll = section.scrollHeight > section.clientHeight;
+          if (canScroll) {
+            const atTop = section.scrollTop <= 0;
+            const atBottom = section.scrollTop + section.clientHeight >= section.scrollHeight - 1;
+            const scrollingUp = event.deltaY < 0;
+            const scrollingDown = event.deltaY > 0;
+            if ((scrollingUp && !atTop) || (scrollingDown && !atBottom)) {
+              return;
+            }
+          }
+        }
+
+        event.preventDefault();
+        scroller.scrollLeft += event.deltaY;
+      }, { passive: false });
+
+      scroller.addEventListener('scroll', () => {
+        if (hint && scroller.scrollLeft > 20) {
+          hint.classList.add('is-hidden');
+        }
+      }, { passive: true });
+
+      window.addEventListener('keydown', () => {
+        if (hint) hint.classList.add('is-hidden');
+      }, { passive: true });
+
+      window.addEventListener('touchstart', () => {
+        if (hint) hint.classList.add('is-hidden');
+      }, { passive: true });
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', event => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+          history.replaceState(null, '', link.getAttribute('href'));
+          if (hint) hint.classList.add('is-hidden');
+        });
+      });
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      }, { root: scroller, threshold: 0.6 });
+
+      sections.forEach(section => observer.observe(section));
+
+      if (sections[0]) {
+        setActiveSection(sections[0].id);
+      }
+
+      if (hint && scroller.scrollLeft > 20) {
+        hint.classList.add('is-hidden');
+      }
+    }
+
+    function enableDropdownNav() {
+      const dropdown = document.getElementById('analysis-dropdown');
+      if (!dropdown) return;
+
+      const toggle = dropdown.querySelector('.dropdown-toggle');
+      const menu = dropdown.querySelector('.dropdown-menu');
+
+      function closeMenu() {
+        dropdown.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      toggle.addEventListener('click', () => {
+        const isOpen = dropdown.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      menu.addEventListener('click', event => {
+        const link = event.target.closest('a');
+        if (link) closeMenu();
+      });
+
+      document.addEventListener('click', event => {
+        if (!dropdown.contains(event.target)) closeMenu();
+      });
+    }
+
+    function enableCodeTabs() {
+      document.querySelectorAll('[data-tabs]').forEach(tabGroup => {
+        const buttons = Array.from(tabGroup.querySelectorAll('.tab-button'));
+        const panels = Array.from(tabGroup.querySelectorAll('.tab-panel'));
+
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-tab');
+            buttons.forEach(btn => {
+              const isActive = btn === button;
+              btn.classList.toggle('is-active', isActive);
+              btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+            panels.forEach(panel => {
+              panel.classList.toggle('is-active', panel.id === targetId);
+            });
+          });
+        });
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      observeReveals();
+      observeVisualization();
+      enableParallaxMedia();
+      enableHorizontalScroll();
+      enableDropdownNav();
+      enableCodeTabs();
+    });
+  </script>
+</body>
+</html>

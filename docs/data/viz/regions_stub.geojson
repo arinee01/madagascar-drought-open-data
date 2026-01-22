@@ -1,0 +1,16 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Example Region",
+        "drought_index": 0.42
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[47.5, -18.9], [47.7, -18.9], [47.7, -19.1], [47.5, -19.1], [47.5, -18.9]]]
+      }
+    }
+  ]
+}

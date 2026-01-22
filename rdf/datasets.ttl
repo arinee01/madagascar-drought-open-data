@@ -1,0 +1,28 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+<#dataset-mashup>
+  a dcat:Dataset ;
+  dct:title "Drought indicators in Madagascar (mash-up dataset)"@en ;
+  dct:description "Aggregated analysis of drought and water stress indicators in Madagascar using open datasets."@en ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  prov:wasDerivedFrom <#dataset-fao> , <#dataset-copernicus> ;
+  dcat:distribution <#dist-csv> .
+
+<#dataset-fao>
+  a dcat:Dataset ;
+  dct:title "FAO drought and water stress indicators for Madagascar"@en ;
+  dct:publisher <http://www.fao.org/> ;
+  dct:license <https://creativecommons.org/licenses/by/3.0/igo/> .
+
+<#dataset-copernicus>
+  a dcat:Dataset ;
+  dct:title "Copernicus Global Drought Observatory indicators for Madagascar"@en ;
+  dct:publisher <https://www.copernicus.eu/> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> .
+
+<#dist-csv>
+  a dcat:Distribution ;
+  dct:format "CSV" ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/mashup.csv> .

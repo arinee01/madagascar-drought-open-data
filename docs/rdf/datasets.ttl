@@ -1,0 +1,63 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+<#dataset-mashup>
+  a dcat:Dataset ;
+  adms:identifier "mdg-drought-mashup" ;
+  dct:title "Drought indicators in Madagascar (mash-up dataset)"@en ;
+  dct:description "Curated and aggregated mash-up of drought-related indicators at ADM1 regional level for Madagascar. Produced for a student project on Open Access and Digital Ethics."@en ;
+  dcat:theme <http://publications.europa.eu/resource/authority/data-theme/ENVI> ;
+  dct:spatial <http://sws.geonames.org/1062947/> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:issued "2026-01-19"^^xsd:date ;
+  dct:modified "2026-01-19"^^xsd:date ;
+  prov:wasDerivedFrom <#dataset-fao>, <#dataset-copernicus>, <#dataset-regions> ;
+  dcat:distribution <#dist-mashup-csv> .
+
+<#dataset-regions>
+  a dcat:Dataset ;
+  adms:identifier "mdg-regions-adm1-geoboundaries" ;
+  dct:title "Madagascar administrative regions (ADM1) – geoBoundaries"@en ;
+  dct:description "Administrative boundaries for Madagascar at ADM1 level, reused to support regional aggregation and mapping."@en ;
+  dcat:theme <http://publications.europa.eu/resource/authority/data-theme/REGI> ;
+  dct:spatial <http://sws.geonames.org/1062947/> ;
+  dct:license <https://www.geoboundaries.org/> ;
+  dcat:distribution <#dist-regions-geojson> .
+
+<#dataset-fao>
+  a dcat:Dataset ;
+  adms:identifier "fao-water-stress-mdg" ;
+  dct:title "FAO drought and water stress indicators for Madagascar"@en ;
+  dct:publisher <http://www.fao.org/> ;
+  dct:license <https://creativecommons.org/licenses/by/3.0/igo/> ;
+  dct:description "License and terms as declared by the source."@en .
+
+<#dataset-copernicus>
+  a dcat:Dataset ;
+  adms:identifier "copernicus-drought-mdg" ;
+  dct:title "Copernicus drought indicators for Madagascar (source dataset)"@en ;
+  dct:publisher <https://www.copernicus.eu/> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:description "License and terms as declared by the source."@en .
+
+<#dist-mashup-csv>
+  a dcat:Distribution ;
+  adms:identifier "dist-mashup-csv" ;
+  dct:title "Mash-up dataset (CSV)"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/CSV> ;
+  dcat:mediaType "text/csv" ;
+  dcat:accessURL <https://arinee01.github.io/madagascar-drought-open-data/> ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/mashup.csv> .
+
+<#dist-regions-geojson>
+  a dcat:Distribution ;
+  adms:identifier "dist-regions-geojson" ;
+  dct:title "Administrative regions ADM1 (GeoJSON)"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/GEOJSON> ;
+  dcat:mediaType "application/geo+json" ;
+  dcat:accessURL <https://arinee01.github.io/madagascar-drought-open-data/> ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/regions.geojson> .
