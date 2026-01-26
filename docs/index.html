@@ -484,6 +484,102 @@
       text-transform: uppercase;
     }
 
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      clear: both;
+      font-size: 0.9rem;
+      background: rgba(9, 12, 10, 0.35);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(247, 245, 238, 0.16);
+      position: relative;
+      z-index: 1;
+    }
+
+    .table thead th {
+      text-align: left;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 14px;
+      background: rgba(177, 209, 137, 0.12);
+      color: var(--ink);
+      border-bottom: 1px solid rgba(247, 245, 238, 0.12);
+    }
+
+    .table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(247, 245, 238, 0.08);
+      color: var(--muted);
+    }
+
+    .table tbody tr:nth-child(odd) td {
+      background: rgba(9, 12, 10, 0.22);
+    }
+
+    .table tbody tr:hover td {
+      background: rgba(177, 209, 137, 0.08);
+      color: var(--ink);
+    }
+
+    .table-title {
+      margin: 26px 0 14px;
+      padding-bottom: 2px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .table-block {
+      margin-top: 10px;
+      padding-top: 6px;
+    }
+
+    .table-block .table {
+      margin-top: 0;
+    }
+
+    .ranking-card {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(247, 245, 238, 0.25);
+      background: rgba(9, 12, 10, 0.45);
+    }
+
+    .ranking-card h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ranking-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .ranking-list {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    .ranking-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ranking-value {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
     .viz-status {
       margin-top: 10px;
       font-size: 0.8rem;
@@ -495,6 +591,35 @@
       align-items: center;
       gap: 12px;
       margin-top: 16px;
+    }
+
+    .chartwrap {
+      position: relative;
+    }
+
+    .chart-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      align-items: center;
+      margin: 6px 0 10px;
+    }
+
+    .chart-controls select,
+    .chart-controls button {
+      background: rgba(10, 14, 12, 0.7);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chart-controls button {
+      cursor: pointer;
     }
 
     .badge {
@@ -898,20 +1023,47 @@
             </div>
             <div class="dataset">
               <div class="name">Copernicus - Global Drought Observatory indicators</div>
-              <p class="desc">Climate-related drought indicators (e.g., anomalies/soil moisture). Format: NetCDF/CSV. License: CC BY 4.0.</p>
+              <p class="desc">Climate-related drought indicators (e.g., anomalies/soil moisture). Format: NetCDF/CSV. License: Copernicus Open Access Licence.</p>
               <div class="row">
                 <span class="pill">NetCDF -> CSV</span>
-                <span class="pill">CC BY 4.0</span>
+                <span class="pill">Copernicus Open Access</span>
                 <span class="pill">Provenance: EU</span>
               </div>
             </div>
             <div class="dataset">
-              <div class="name">HDX/OCHA - administrative boundaries (ADM1/ADM2)</div>
-              <p class="desc">Administrative boundaries for spatial aggregation and mapping. Format: GeoJSON. License: CC BY / ODC-BY (as published).</p>
+              <div class="name">GPCC (DWD) - monthly precipitation data</div>
+              <p class="desc">Rain-gauge precipitation observations used for anomalies and SPI. Format: CSV. License: CC BY 4.0.</p>
+              <div class="row">
+                <span class="pill">CSV</span>
+                <span class="pill">CC BY 4.0</span>
+                <span class="pill">Provenance: DWD (Germany)</span>
+              </div>
+            </div>
+            <div class="dataset">
+              <div class="name">World Bank Open Data - water stress / agricultural land</div>
+              <p class="desc">National and regional indicators for water stress and land use. Format: CSV. License: CC BY 4.0.</p>
+              <div class="row">
+                <span class="pill">CSV</span>
+                <span class="pill">CC BY 4.0</span>
+                <span class="pill">Provenance: World Bank</span>
+              </div>
+            </div>
+            <div class="dataset">
+              <div class="name">OpenStreetMap / HOT - waterways and geographic features</div>
+              <p class="desc">Open geospatial features used for contextual reference. Format: GeoJSON. License: ODbL 1.0.</p>
               <div class="row">
                 <span class="pill">GeoJSON</span>
-                <span class="pill">Boundaries</span>
-                <span class="pill">Provenance: UN/OCHA</span>
+                <span class="pill">ODbL 1.0</span>
+                <span class="pill">Provenance: OSM / HOT</span>
+              </div>
+            </div>
+            <div class="dataset">
+              <div class="name">geoBoundaries - administrative regions (ADM1)</div>
+              <p class="desc">Administrative boundaries for spatial aggregation and mapping. Format: GeoJSON. License: CC BY 4.0.</p>
+              <div class="row">
+                <span class="pill">GeoJSON</span>
+                <span class="pill">CC BY 4.0</span>
+                <span class="pill">Provenance: geoBoundaries</span>
               </div>
             </div>
           </div>
@@ -929,6 +1081,18 @@
               <span class="pill">Metadata: DCAT-AP (RDF)</span>
             </div>
           </div>
+          <div class="dataset">
+            <div class="name">SPI time series by region (output)</div>
+            <p class="desc">
+              Monthly SPI values by ADM1 region for 2024.
+              Output: <a href="./data/processed/spi_timeseries.csv">CSV</a>.
+            </p>
+            <div class="row">
+              <span class="pill">Output: CSV</span>
+              <span class="pill">SPI 2024</span>
+              <span class="pill">Metadata: DCAT-AP (RDF)</span>
+            </div>
+          </div>
           <div class="btnrow">
             <a class="btn ghost" href="#home">Back to Home</a>
           </div>
@@ -939,7 +1103,155 @@
             <h2>4. Quality analysis of the datasets</h2>
             <div class="meta">Completeness / consistency / timeliness</div>
           </div>
-          <p><!-- Person A will paste quality findings here --></p>
+          <p>
+            In line with the principles of open data reuse promoted by the Copernicus Programme, the
+            World Meteorological Organization, and the World Bank, a comprehensive data quality
+            assessment was conducted for all datasets used in this project. The objective of this
+            evaluation is to ensure that the regional analysis of drought risk and environmental
+            stress in Madagascar is based on reliable, interoperable, and ethically reusable open data.
+          </p>
+          <p>
+            The assessment follows four core data quality dimensions: accuracy, coherence,
+            completeness, and timeliness.
+          </p>
+
+          <h3>1. Accuracy (syntactic and semantic)</h3>
+          <h4>Monthly precipitation data (GPCC)</h4>
+          <p>
+            Precipitation data is derived from the Global Precipitation Climatology Centre (GPCC),
+            which aggregates rain gauge observations from multiple international meteorological
+            networks. The dataset is considered semantically accurate, as it represents direct
+            physical measurements of rainfall. Minor uncertainties may arise in regions with sparse
+            ground stations, particularly in remote or rural areas of Madagascar.
+          </p>
+          <h4>Standardized Precipitation Index (SPI)</h4>
+          <p>
+            The SPI dataset is calculated using precipitation time series and standardized
+            statistical methods. It provides a well-established indicator for drought conditions.
+            While the index is methodologically robust, its accuracy depends on the quality and
+            spatial coverage of the underlying precipitation data.
+          </p>
+          <h4>Risk of drought impact for agriculture</h4>
+          <p>
+            The drought risk indicator is derived from model-based classifications combining multiple
+            climate inputs. Although it does not represent direct observations, it offers a consistent
+            and interpretable assessment of agricultural drought risk. The categorical nature of the
+            data (low, medium, high) reduces numerical precision but improves semantic clarity for
+            decision-making contexts.
+          </p>
+
+          <h3>2. Coherence</h3>
+          <p>
+            All datasets were harmonized at the regional level, using consistent region names and
+            temporal references. Monthly observations were aggregated to annual averages for 2024
+            and 2025, ensuring temporal alignment across indicators.
+          </p>
+          <p>
+            The relationship between precipitation, SPI values, and drought risk indicators exhibited
+            coherent patterns. Regions with persistent negative SPI values generally corresponded to
+            higher proportions of medium or high agricultural drought risk, which aligns with
+            established climatological expectations.
+          </p>
+          <p>
+            No conflicting spatial or temporal identifiers were observed after preprocessing,
+            indicating a high level of interoperability among the datasets.
+          </p>
+
+          <h3>3. Completeness</h3>
+          <h4>Precipitation (GPCC)</h4>
+          <p>
+            The dataset provides extensive monthly coverage; however, some regions and months contain
+            missing values, reflecting gaps in meteorological station reporting. Annual averages were
+            computed using available months only, without imputing missing values.
+          </p>
+          <h4>SPI dataset</h4>
+          <p>
+            SPI data follows the same temporal structure as the precipitation dataset and shares
+            similar completeness limitations. Missing values were preserved as null entries to avoid
+            artificial data generation.
+          </p>
+          <h4>Agricultural drought risk</h4>
+          <p>
+            The drought risk dataset covers most regions and months but contains occasional gaps due
+            to model constraints or insufficient input data. These gaps were explicitly retained and
+            documented.
+          </p>
+          <p>
+            Some incompleteness is therefore present across datasets, but it is handled transparently.
+            No synthetic or interpolated values were introduced, in accordance with ethical data reuse
+            principles.
+          </p>
+
+          <h3>4. Timeliness</h3>
+          <p>
+            The datasets include observations up to 2025, making them suitable for recent drought
+            analysis. However, slight delays between observation, processing, and publication are
+            inherent to climate and satellite-based datasets.
+          </p>
+          <p>
+            The precipitation and SPI indicators are updated regularly, while drought risk
+            classifications may lag slightly due to model recalibration cycles. Despite these delays,
+            the datasets remain sufficiently timely for regional-scale drought assessment and
+            comparative analysis between 2024 and 2025.
+          </p>
+
+          <h3 class="table-title">5. Summary table - data quality dimensions</h3>
+          <div class="table-block">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Dataset</th>
+                  <th>Accuracy</th>
+                  <th>Coherence</th>
+                  <th>Completeness</th>
+                  <th>Timeliness</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>D1</td>
+                  <td>GPCC - Monthly Precipitation Data</td>
+                  <td>High</td>
+                  <td>High</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>D2</td>
+                  <td>SPI (Standardized Precipitation Index)</td>
+                  <td>High</td>
+                  <td>High</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <td>D3</td>
+                  <td>Agricultural Drought Risk Indicator</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                  <td>Medium</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>D4</td>
+                  <td>Copernicus GDO - fAPAR Anomaly (VIIRS)</td>
+                  <td>High</td>
+                  <td>High</td>
+                  <td>Low</td>
+                  <td>Medium</td>
+                </tr>
+                <tr>
+                  <td>D5</td>
+                  <td>Copernicus GDO - Soil Moisture Index Anomaly</td>
+                  <td>Medium</td>
+                  <td>High</td>
+                  <td>Low</td>
+                  <td>Medium</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="btnrow">
             <a class="btn ghost" href="#home">Back to Home</a>
           </div>
@@ -950,7 +1262,173 @@
             <h2>5. Legal analysis</h2>
             <div class="meta">Ownership / licenses / privacy</div>
           </div>
-          <p><!-- Person A will paste legal analysis here --></p>
+          <p>
+            This legal assessment is grounded in international open data principles and the national
+            legal framework applicable to Madagascar, as well as the reuse policies of major
+            international data providers such as the World Bank, FAO, Copernicus, and the Global
+            Drought Observatory. The analysis follows the principles of lawful reuse, transparency,
+            and ethical compliance as required in open access research projects.
+          </p>
+
+          <h3>1. Privacy issues</h3>
+          <p>
+            All datasets used in this project are classified as non-personal data. None of the sources
+            include information that can directly or indirectly identify individuals, such as names,
+            personal identifiers, addresses, biometric data, or geolocation data linked to individuals.
+          </p>
+          <p>Datasets consist exclusively of:</p>
+          <ul>
+            <li>Aggregated environmental indicators (e.g., soil moisture anomalies, precipitation anomalies, drought indicators)</li>
+            <li>Water stress and water withdrawal indicators at national or regional level</li>
+            <li>Agricultural and land-use statistics expressed as percentages or indices</li>
+            <li>Administrative and geographic boundaries at the regional level</li>
+          </ul>
+          <p>
+            Even when socio-environmental pressure indicators are used (e.g., water stress or
+            agricultural land share), all values are aggregated at regional or national scale,
+            eliminating any risk of re-identification or deanonymization. Therefore, the project does
+            not fall under the scope of personal data protection regulations such as GDPR or comparable
+            privacy laws.
+          </p>
+
+          <h3>2. Intellectual property rights</h3>
+          <p>
+            All datasets originate from official public institutions or international organizations
+            that explicitly promote open data reuse. The main data providers include:
+          </p>
+          <ul>
+            <li>World Bank Open Data - water stress, agricultural land, water withdrawal indicators</li>
+            <li>FAO (Food and Agriculture Organization) - agricultural and environmental statistics</li>
+            <li>Copernicus Programme / Global Drought Observatory (JRC) - drought, vegetation, and soil moisture indicators</li>
+            <li>Humanitarian OpenStreetMap Team (HOT) - geospatial data on waterways and infrastructure</li>
+            <li>Administrative boundary datasets sourced from international open geospatial repositories</li>
+          </ul>
+          <p>
+            These organizations retain authorship but allow reuse, transformation, and redistribution
+            of the data under open or permissive licensing conditions, provided that proper attribution
+            is given.
+          </p>
+
+          <h3>3. Licensing and reuse</h3>
+          <p>The datasets used in this project are distributed under open licenses compatible with reuse, including:</p>
+          <ul>
+            <li>CC BY 4.0 (World Bank, FAO datasets)</li>
+            <li>Copernicus Open Access Licence (environmental and satellite-derived indicators)</li>
+            <li>CC BY 4.0 (geoBoundaries, GPCC)</li>
+            <li>Open Database License (ODbL) or equivalent (OpenStreetMap / HOT data)</li>
+          </ul>
+          <p>
+            To ensure full compatibility and openness, the final mashup dataset produced in this
+            project is released under the Creative Commons Attribution 4.0 (CC BY 4.0) license. This
+            allows free reuse, redistribution, and adaptation of the dataset for both academic and
+            non-commercial purposes, provided that attribution to the original sources is maintained.
+          </p>
+
+          <h3>4. Access limitations</h3>
+          <p>
+            All datasets are freely accessible online, without registration, subscription fees, or
+            access restrictions. No dataset includes classified, military, or security-sensitive
+            information.
+          </p>
+          <p>The data complies with open access requirements:</p>
+          <ul>
+            <li>Machine-readable formats (CSV, XLSX, GeoJSON)</li>
+            <li>Public documentation and metadata</li>
+            <li>No technical or legal barriers to access</li>
+          </ul>
+          <p>Thus, no additional legal constraints apply to the use or publication of the integrated datasets.</p>
+
+          <h3>5. Economic conditions</h3>
+          <p>
+            All data sources were accessed free of charge. No licensing fees, royalties, or commercial
+            restrictions apply. The reuse of data respects the original platforms' terms of service
+            and does not involve resale or proprietary exploitation.
+          </p>
+          <p>The project aligns with open data economic principles by:</p>
+          <ul>
+            <li>Encouraging reuse without financial barriers</li>
+            <li>Supporting downstream innovation and analysis</li>
+            <li>Avoiding vendor lock-in or platform dependency</li>
+          </ul>
+
+          <h3>6. Temporal aspects</h3>
+          <p>The datasets used in the mashup differ in update frequency and temporal coverage:</p>
+          <ul>
+            <li>World Bank indicators: updated annually; some indicators have a reporting delay of 1-2 years</li>
+            <li>FAO datasets: updated annually or biannually</li>
+            <li>Copernicus / Global Drought Observatory: near-real-time or monthly updates, depending on the indicator</li>
+            <li>Geospatial boundary data: relatively stable, updated only when administrative changes occur</li>
+          </ul>
+          <p>
+            All temporal limitations are explicitly documented to avoid misinterpretation and ensure
+            transparency in longitudinal analysis.
+          </p>
+
+          <h3>7. Final note on publication and compliance</h3>
+          <p>
+            This project follows best practices in open data reuse by clearly attributing all
+            original data sources, documenting all transformations, aggregations, and assumptions,
+            preserving transparency in methodological choices, and publishing outputs under an open
+            and interoperable license.
+          </p>
+          <p>The legal framework of this project aligns with international standards, including:</p>
+          <ul>
+            <li>The International Open Data Charter</li>
+            <li>UN Sustainable Development Goals (SDGs), particularly SDG 6 (Clean Water) and SDG 13 (Climate Action)</li>
+            <li>UNESCO Open Science Recommendation</li>
+            <li>EU Copernicus Open Data Policy</li>
+          </ul>
+          <p>
+            As a result, the legal reuse of data in this project is compliant, transparent, and
+            consistent with both national and international open access principles.
+          </p>
+
+          <h3>Licenses and credits</h3>
+          <p>
+            This project uses official open datasets and free tools released under public and open
+            licenses to support reproducible, ethical, and open-access analysis of drought risk,
+            water stress, and agricultural vulnerability in Madagascar.
+          </p>
+          <p>
+            The project is developed in accordance with international open data principles and best
+            practices for transparency, attribution, and responsible reuse.
+          </p>
+
+          <h4>Source datasets</h4>
+          <p>The analysis integrates datasets provided by the following institutions and initiatives:</p>
+          <ul>
+            <li>World Bank Open Data - indicators on water stress, freshwater withdrawals, and agricultural land use</li>
+            <li>FAO (Food and Agriculture Organization of the United Nations) - agricultural and environmental statistics</li>
+            <li>Copernicus Programme / Global Drought Observatory - satellite-based drought indicators</li>
+            <li>Global Precipitation Climatology Centre (GPCC) - precipitation data</li>
+            <li>Administrative boundary datasets sourced from international open geospatial repositories</li>
+          </ul>
+
+          <h4>Data licensing</h4>
+          <p>The source datasets are governed by the following licenses:</p>
+          <ul>
+            <li>World Bank Open Data - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
+            <li>FAO Data - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
+            <li>Copernicus Data - Copernicus Open Access Licence</li>
+            <li>GPCC Data - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
+          </ul>
+          <p>
+            All licenses permit reuse, modification, and redistribution of data, provided that
+            appropriate attribution to the original data providers is maintained.
+          </p>
+
+          <h4>Licensing of derived data</h4>
+          <p>
+            All processed datasets, mashups, and derived indicators produced within this project are
+            released under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.
+          </p>
+          <p>This ensures:</p>
+          <ul>
+            <li>Full compatibility with all source licenses</li>
+            <li>Legal reuse by third parties</li>
+            <li>Transparency and reproducibility of results</li>
+            <li>Alignment with open science and open government principles</li>
+          </ul>
           <div class="btnrow">
             <a class="btn ghost" href="#home">Back to Home</a>
           </div>
@@ -961,7 +1439,120 @@
             <h2>6. Ethics analysis</h2>
             <div class="meta">Fairness / bias / do-no-harm</div>
           </div>
-          <p><!-- Person A will paste ethics analysis here --></p>
+          <p>
+            The ethical analysis of this project follows principles outlined in EU Data Ethics
+            Guidelines, the Open Data Institute's Ethics Canvas, and international recommendations
+            on responsible reuse of environmental and climate data. Given the project's focus on
+            drought, water stress, and agricultural vulnerability in Madagascar, particular attention
+            was paid to ethical considerations related to data selection, aggregation, interpretation,
+            and communication.
+          </p>
+
+          <h3>1. Data ethics principles</h3>
+          <h4>Human-centric and societal relevance</h4>
+          <p>
+            The primary objective of this project is to improve understanding of drought-related
+            risks and environmental stress at the regional level in Madagascar, with a particular
+            focus on agriculture and water availability. The analysis is designed to support
+            evidence-based decision-making and resilience-building strategies, especially in regions
+            that are structurally vulnerable due to climatic variability, limited infrastructure,
+            and economic dependence on rain-fed agriculture. The project does not seek to rank or
+            judge regions, but to highlight patterns that may inform adaptive and preventive policies.
+          </p>
+
+          <h4>Fairness and equity</h4>
+          <p>
+            All indicators are aggregated at the regional level, ensuring that no individual or
+            household-level data is used. The analysis avoids framing regions with higher drought
+            risk or lower precipitation as failures and instead emphasizes systemic climatic and
+            environmental factors. Differences between regions are interpreted in light of geographic,
+            climatic, and ecological conditions rather than governance or social performance.
+          </p>
+
+          <h4>Transparency and reproducibility</h4>
+          <p>
+            All datasets used in the project originate from publicly accessible open data sources,
+            such as international climate and environmental data providers. Data transformations,
+            including temporal aggregation from monthly to annual values and the construction of
+            derived indicators, are fully documented. No hidden assumptions, undocumented filtering,
+            or opaque modeling steps were applied, ensuring reproducibility and auditability of the
+            analysis.
+          </p>
+
+          <h4>Accountability in data reuse</h4>
+          <p>
+            The project explicitly respects the original scope and limitations of each dataset.
+            Indicators were only used at the spatial and temporal resolution supported by the data
+            providers. When region-level tabular data was not available (e.g., for certain
+            satellite-derived indicators), these datasets were excluded from the quantitative mashup
+            and used only for qualitative interpretation. This decision reflects a deliberate ethical
+            choice to avoid artificial spatial disaggregation or synthetic data generation.
+          </p>
+
+          <h4>Privacy and respect for affected populations</h4>
+          <p>
+            No personal data, microdata, or sensitive individual-level information was used.
+            Environmental and agricultural indicators are expressed as indices, averages, or
+            proportions at the regional level. This approach eliminates any risk of re-identification
+            and ensures respectful representation of populations affected by drought and water stress.
+            The framing of results focuses on risk reduction and preparedness rather than attributing
+            responsibility to specific communities.
+          </p>
+
+          <h3>2. Ethical concerns and mitigation measures</h3>
+          <h4>Avoiding data fabrication and false precision</h4>
+          <p>
+            A key ethical challenge in climate and environmental analysis is the temptation to infer
+            regional values from national-level data or to visually approximate numerical values from
+            maps. This project explicitly avoided such practices. Indicators without reliable
+            region-level tabular data were excluded from quantitative modeling, preventing the
+            introduction of unverifiable or misleading information.
+          </p>
+
+          <h4>Handling data gaps and uncertainty</h4>
+          <p>
+            Missing values and incomplete temporal coverage were preserved as such, rather than being
+            filled through interpolation or estimation. This choice prioritizes transparency over
+            completeness and ensures that uncertainty remains visible to users of the dataset. All
+            limitations related to data coverage are clearly documented.
+          </p>
+
+          <h4>Responsible interpretation of results</h4>
+          <p>
+            The analysis does not claim causal relationships between drought indicators and
+            agricultural outcomes. Correlations between precipitation, SPI, and drought risk are
+            presented as signals of environmental stress, not as deterministic explanations.
+            Visualizations and summaries are explicitly framed as descriptive and exploratory.
+          </p>
+
+          <h4>Geographical sensitivity</h4>
+          <p>
+            Given Madagascar's regional diversity and socio-economic disparities, particular care
+            was taken to avoid reinforcing stereotypes or stigmatization. Regions experiencing higher
+            drought risk are contextualized within broader climatic patterns rather than portrayed as
+            anomalous or deficient.
+          </p>
+
+          <h4>Public communication and data literacy</h4>
+          <p>
+            The project is designed to be accessible to a broad audience, including students,
+            researchers, and policy-oriented stakeholders. Simplified indicators and clear
+            explanations are provided alongside technical documentation to support informed
+            interpretation without oversimplification.
+          </p>
+
+          <h3>3. Final ethical considerations</h3>
+          <p>
+            The ethical safeguards adopted in this project reflect international best practices in
+            open data reuse and climate data governance. By prioritizing transparency, avoiding
+            synthetic data generation, and respecting both environmental and social sensitivities,
+            the project demonstrates responsible and ethical use of open environmental data.
+          </p>
+          <p>
+            The approach aligns with global ethical frameworks promoting fairness, accountability,
+            and sustainability, and supports the use of open data as a tool for understanding climate
+            risks and supporting resilient development in vulnerable contexts such as Madagascar.
+          </p>
           <div class="btnrow">
             <a class="btn ghost" href="#home">Back to Home</a>
           </div>
@@ -997,7 +1588,7 @@
           <p><strong>Formats summary:</strong></p>
           <ul>
             <li><strong>Inputs:</strong> CSV (statistical indicators), GeoJSON (administrative boundaries)</li>
-            <li><strong>Outputs:</strong> CSV (mash-up dataset), GeoJSON (regions for mapping), RDF/Turtle (metadata)</li>
+            <li><strong>Outputs:</strong> CSV (mash-up dataset, SPI time series), GeoJSON (regions for mapping), RDF/Turtle (metadata)</li>
           </ul>
 
           <h3>Metadata and Linked Open Data</h3>
@@ -1017,13 +1608,13 @@
           <h3>URI strategy</h3>
           <p>
             The project adopts a stable base URI rooted in the GitHub Pages domain:
-            <code>https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>.
+            <code>https://arinee01.github.io/madagascar-drought-open-data/</code>.
           </p>
           <p>Specific resources are identified as follows:</p>
           <ul>
-            <li><strong>Catalog:</strong> <code>.../rdf/catalog.ttl</code></li>
-            <li><strong>Datasets metadata:</strong> <code>.../rdf/datasets.ttl</code></li>
-            <li><strong>Mash-up dataset identifier:</strong> <code>.../#dataset-mashup</code></li>
+            <li><strong>Catalog:</strong> <code>https://arinee01.github.io/madagascar-drought-open-data/rdf/catalog.ttl</code></li>
+            <li><strong>Datasets metadata:</strong> <code>https://arinee01.github.io/madagascar-drought-open-data/rdf/datasets.ttl</code></li>
+            <li><strong>Mash-up dataset identifier:</strong> <code>https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup</code></li>
           </ul>
 
           <h3>Vocabularies</h3>
@@ -1070,6 +1661,12 @@
             control, and structured metadata. Dataset updates can be integrated by re-running the
             processing pipeline and regenerating the output datasets without modifying the visualization
             or publication layers.
+          </p>
+          <p>
+            At the current stage, data curation and aggregation are semi-manual. The repository
+            documents the key normalization steps as scripts in <code>scripts/</code> (SPI normalization
+            and mashup CSV cleanup), which can be rerun when new data arrives. This supports
+            transparent updates while keeping the workflow lightweight.
           </p>
           <p>
             Versioning is managed through the GitHub repository, where each update to the datasets,
@@ -1128,8 +1725,7 @@
             </div>
           </div>
           <p class="viz-status">
-            Status: Pending final mash-up dataset. This visualization will be populated automatically
-            once the curated mashup.csv is published.
+            Status: Live. KPIs are computed from <code>mashup.csv</code> (regional 2024 snapshot).
           </p>
 
           <h3>Map visualization</h3>
@@ -1146,16 +1742,12 @@
 
           <div id="map"></div>
 
-          <div class="viz-placeholder">
-            <h4>Top 10 regions by drought index (placeholder)</h4>
-            <p>
-              This ranking will show the most affected regions for the selected period, based on
-              drought_index from the final mash-up dataset.
-            </p>
-            <div class="viz-status">
-              Status: Pending final mash-up dataset. This visualization will be populated automatically
-              once the curated mashup.csv is published.
+          <div class="ranking-card">
+            <h4>Top 10 regions by drought index (2024)</h4>
+            <div class="ranking-meta">
+              Based on mashup.csv (higher drought_index = stronger drought conditions).
             </div>
+            <ol id="ranking-list" class="ranking-list"></ol>
           </div>
 
           <div class="chart-header">
@@ -1163,7 +1755,7 @@
             <span id="ts-badge" class="badge badge-demo">Demo (placeholder)</span>
           </div>
           <p class="note" id="ts-note">
-            This chart will use the curated mash-up dataset once temporal indicators (date/month/year) are available.
+            This chart displays SPI monthly time series from <code>spi_timeseries.csv</code> (2024).
           </p>
           <p>
             The time series chart illustrates the temporal evolution of the drought indicator for
@@ -1175,30 +1767,10 @@
             and periods.
           </p>
           <div class="chartwrap">
+            <div class="chart-controls">
+              <select id="spi-region-select" aria-label="Select region for SPI chart"></select>
+            </div>
             <canvas id="droughtChart" width="900" height="320"></canvas>
-          </div>
-
-          <div class="viz-placeholder">
-            <h4>Agriculture share vs drought index (placeholder)</h4>
-            <p>
-              Scatter plot showing the relationship between agricultural land share and drought index,
-              with each point representing a region.
-            </p>
-            <div class="viz-status">
-              Status: Pending final mash-up dataset. This visualization will be populated automatically
-              once the curated mashup.csv is published.
-            </div>
-          </div>
-
-          <div class="viz-placeholder">
-            <h4>Data quality & coverage (placeholder)</h4>
-            <p>
-              Mini chart summarizing missing values per indicator and overall coverage across regions.
-            </p>
-            <div class="viz-status">
-              Status: Pending final mash-up dataset. This visualization will be populated automatically
-              once the curated mashup.csv is published.
-            </div>
           </div>
 
           <div class="btnrow">
@@ -1222,7 +1794,7 @@
           <div class="rdf-body">
             <ul class="rdf-list">
               <li><strong>DCAT-AP catalog</strong> describing the project and the list of datasets.</li>
-              <li><strong>DCAT-AP dataset metadata</strong> for each original dataset and the mash-up dataset.</li>
+              <li><strong>DCAT-AP dataset metadata</strong> for each original dataset, the mash-up dataset, and the SPI time series.</li>
               <li><strong>Distributions</strong> linking to CSV and GeoJSON files used for analysis and visualization.</li>
               <li><strong>License references</strong> using resolvable URIs (Creative Commons).</li>
               <li><strong>Provenance</strong> linking the mash-up dataset to original sources via PROV-O.</li>
@@ -1242,17 +1814,21 @@
 
 &lt;https://arinee01.github.io/madagascar-drought-open-data/catalog&gt;
   a dcat:Catalog ;
-  dct:title "Open Data Analysis of Drought in Madagascar"@en ;
+  dct:title &quot;Open Data Analysis of Drought in Madagascar&quot;@en ;
   dct:conformsTo &lt;https://semiceu.github.io/DCAT-AP/releases/2.1.1/&gt; ;
   dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
   dct:publisher [
     a foaf:Organization ;
-    foaf:name "Student Project – Open Access and Digital Ethics"
+    foaf:name &quot;Student Project – Open Access and Digital Ethics&quot;
   ] ;
   dct:language &lt;http://publications.europa.eu/resource/authority/language/ENG&gt; ;
   dcat:dataset
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt; .</code></pre>
               </div>
@@ -1264,62 +1840,108 @@
 @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 @prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
-&lt;#dataset-mashup&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup&gt;
   a dcat:Dataset ;
-  adms:identifier "mdg-drought-mashup" ;
-  dct:title "Drought indicators in Madagascar (mash-up dataset)"@en ;
-  dct:description "Curated and aggregated mash-up of drought-related indicators at ADM1 regional level for Madagascar. Produced for a student project on Open Access and Digital Ethics."@en ;
+  adms:identifier &quot;mdg-drought-mashup&quot; ;
+  dct:title &quot;Drought indicators in Madagascar (mash-up dataset)&quot;@en ;
+  dct:description &quot;Curated and aggregated mash-up of drought-related indicators at ADM1 regional level for Madagascar. Produced for a student project on Open Access and Digital Ethics.&quot;@en ;
   dcat:theme &lt;http://publications.europa.eu/resource/authority/data-theme/ENVI&gt; ;
   dct:spatial &lt;http://sws.geonames.org/1062947/&gt; ;
   dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
-  dct:issued "2026-01-19"^^xsd:date ;
-  dct:modified "2026-01-19"^^xsd:date ;
-  prov:wasDerivedFrom &lt;#dataset-fao&gt;, &lt;#dataset-copernicus&gt;, &lt;#dataset-regions&gt; ;
-  dcat:distribution &lt;#dist-mashup-csv&gt; .
+  dct:issued &quot;2026-01-19&quot;^^xsd:date ;
+  dct:modified &quot;2026-01-19&quot;^^xsd:date ;
+  prov:wasDerivedFrom
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt; ;
+  dcat:distribution &lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-mashup-csv&gt; .
 
-&lt;#dataset-regions&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt;
   a dcat:Dataset ;
-  adms:identifier "mdg-regions-adm1-geoboundaries" ;
-  dct:title "Madagascar administrative regions (ADM1) – geoBoundaries"@en ;
-  dct:description "Administrative boundaries for Madagascar at ADM1 level, reused to support regional aggregation and mapping."@en ;
+  adms:identifier &quot;mdg-regions-adm1-geoboundaries&quot; ;
+  dct:title &quot;Madagascar administrative regions (ADM1) – geoBoundaries&quot;@en ;
+  dct:description &quot;Administrative boundaries for Madagascar at ADM1 level, reused to support regional aggregation and mapping.&quot;@en ;
   dcat:theme &lt;http://publications.europa.eu/resource/authority/data-theme/REGI&gt; ;
   dct:spatial &lt;http://sws.geonames.org/1062947/&gt; ;
-  dct:license &lt;https://www.geoboundaries.org/&gt; ;
-  dcat:distribution &lt;#dist-regions-geojson&gt; .
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dcat:distribution &lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-regions-geojson&gt; .
 
-&lt;#dataset-fao&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;
   a dcat:Dataset ;
-  adms:identifier "fao-water-stress-mdg" ;
-  dct:title "FAO drought and water stress indicators for Madagascar"@en ;
+  adms:identifier &quot;fao-water-stress-mdg&quot; ;
+  dct:title &quot;FAO drought and water stress indicators for Madagascar&quot;@en ;
   dct:publisher &lt;http://www.fao.org/&gt; ;
   dct:license &lt;https://creativecommons.org/licenses/by/3.0/igo/&gt; ;
-  dct:description "License and terms as declared by the source."@en .
+  dct:description &quot;License and terms as declared by the source.&quot;@en .
 
-&lt;#dataset-copernicus&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt;
   a dcat:Dataset ;
-  adms:identifier "copernicus-drought-mdg" ;
-  dct:title "Copernicus drought indicators for Madagascar (source dataset)"@en ;
+  adms:identifier &quot;copernicus-drought-mdg&quot; ;
+  dct:title &quot;Copernicus drought indicators for Madagascar (source dataset)&quot;@en ;
   dct:publisher &lt;https://www.copernicus.eu/&gt; ;
-  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
-  dct:description "License and terms as declared by the source."@en .
+  dct:license &lt;https://www.copernicus.eu/en/access-data/copernicus-open-access-data-and-information-policy&gt; ;
+  dct:description &quot;License and terms as declared by the source.&quot;@en .
 
-&lt;#dist-mashup-csv&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;
+  a dcat:Dataset ;
+  adms:identifier &quot;gpcc-precipitation-mdg&quot; ;
+  dct:title &quot;GPCC monthly precipitation data for Madagascar (source dataset)&quot;@en ;
+  dct:publisher &lt;https://www.dwd.de/EN/ourservices/gpcc/gpcc.html&gt; ;
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dct:description &quot;Global Precipitation Climatology Centre monthly precipitation dataset used to derive regional precipitation anomalies.&quot;@en .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;
+  a dcat:Dataset ;
+  adms:identifier &quot;worldbank-water-stress-mdg&quot; ;
+  dct:title &quot;World Bank water stress and agricultural land indicators for Madagascar&quot;@en ;
+  dct:publisher &lt;https://data.worldbank.org/&gt; ;
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dct:description &quot;World Bank Open Data indicators used for water stress and agricultural land statistics.&quot;@en .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm&gt;
+  a dcat:Dataset ;
+  adms:identifier &quot;osm-hot-hydro-mdg&quot; ;
+  dct:title &quot;OpenStreetMap / HOT waterways and geographic features (Madagascar)&quot;@en ;
+  dct:publisher &lt;https://www.openstreetmap.org/&gt; ;
+  dct:license &lt;https://opendatacommons.org/licenses/odbl/1-0/&gt; ;
+  dct:description &quot;Geospatial features derived from OpenStreetMap and HOT contributions for Madagascar.&quot;@en .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi&gt;
+  a dcat:Dataset ;
+  adms:identifier &quot;mdg-spi-timeseries&quot; ;
+  dct:title &quot;SPI monthly time series by region (Madagascar)&quot;@en ;
+  dct:description &quot;Standardized Precipitation Index time series by ADM1 region, used for the SPI chart.&quot;@en ;
+  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dcat:distribution &lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-spi-csv&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-mashup-csv&gt;
   a dcat:Distribution ;
-  adms:identifier "dist-mashup-csv" ;
-  dct:title "Mash-up dataset (CSV)"@en ;
+  adms:identifier &quot;dist-mashup-csv&quot; ;
+  dct:title &quot;Mash-up dataset (CSV)&quot;@en ;
   dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
-  dcat:mediaType "text/csv" ;
+  dcat:mediaType &quot;text/csv&quot; ;
   dcat:accessURL &lt;https://arinee01.github.io/madagascar-drought-open-data/&gt; ;
   dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/mashup.csv&gt; .
 
-&lt;#dist-regions-geojson&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-regions-geojson&gt;
   a dcat:Distribution ;
-  adms:identifier "dist-regions-geojson" ;
-  dct:title "Administrative regions ADM1 (GeoJSON)"@en ;
+  adms:identifier &quot;dist-regions-geojson&quot; ;
+  dct:title &quot;Administrative regions ADM1 (GeoJSON)&quot;@en ;
   dct:format &lt;http://publications.europa.eu/resource/authority/file-type/GEOJSON&gt; ;
-  dcat:mediaType "application/geo+json" ;
+  dcat:mediaType &quot;application/geo+json&quot; ;
   dcat:accessURL &lt;https://arinee01.github.io/madagascar-drought-open-data/&gt; ;
-  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/regions.geojson&gt; .</code></pre>
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/regions.geojson&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-spi-csv&gt;
+  a dcat:Distribution ;
+  adms:identifier &quot;dist-spi-csv&quot; ;
+  dct:title &quot;SPI time series (CSV)&quot;@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
+  dcat:mediaType &quot;text/csv&quot; ;
+  dcat:accessURL &lt;https://arinee01.github.io/madagascar-drought-open-data/&gt; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/spi_timeseries.csv&gt; .</code></pre>
               </div>
             </div>
           </div>
@@ -1369,7 +1991,17 @@
   </div>
 
   <script>
-    let vizState = { map: null, chart: null, layer: null, geo: null, mashupData: [] };
+    let vizState = {
+      map: null,
+      chart: null,
+      layer: null,
+      geo: null,
+      mashupData: [],
+      spiByRegion: new Map(),
+      spiRegions: [],
+      spiRegionIndex: 0,
+      spiReady: false
+    };
 
     function initVisualization() {
       if (!vizState.map) {
@@ -1397,16 +2029,63 @@
         }
 
         function parseCSV(text) {
-          const lines = text.trim().split(/\r?\n/);
-          if (!lines.length) return [];
-          const headers = lines[0].split(',').map(h => h.trim());
-          return lines.slice(1).map(line => {
-            const cols = line.split(',').map(c => c.trim());
-            const row = {};
+          const rows = [];
+          let row = [];
+          let field = '';
+          let inQuotes = false;
+
+          const pushField = () => {
+            row.push(field);
+            field = '';
+          };
+
+          const pushRow = () => {
+            if (row.length === 1 && row[0] === '') return;
+            rows.push(row);
+            row = [];
+          };
+
+          const input = text.trimEnd();
+          for (let i = 0; i < input.length; i++) {
+            const ch = input[i];
+            const next = input[i + 1];
+
+            if (ch === '"') {
+              if (inQuotes && next === '"') {
+                field += '"';
+                i++;
+              } else {
+                inQuotes = !inQuotes;
+              }
+              continue;
+            }
+
+            if (ch === ',' && !inQuotes) {
+              pushField();
+              continue;
+            }
+
+            if ((ch === '\n' || ch === '\r') && !inQuotes) {
+              if (ch === '\r' && next === '\n') i++;
+              pushField();
+              pushRow();
+              continue;
+            }
+
+            field += ch;
+          }
+
+          pushField();
+          pushRow();
+
+          if (!rows.length) return [];
+          const headers = rows[0].map(h => h.trim());
+          return rows.slice(1).map(cols => {
+            const rowObj = {};
             headers.forEach((h, i) => {
-              row[h] = cols[i];
+              rowObj[h] = (cols[i] ?? '').trim();
             });
-            return row;
+            return rowObj;
           });
         }
 
@@ -1499,6 +2178,7 @@
         }
 
         async function updateTimeSeriesSmart(mashupData) {
+          if (vizState.spiReady) return;
           const badge = document.getElementById('ts-badge');
           const note = document.getElementById('ts-note');
 
@@ -1529,15 +2209,144 @@
           } catch (e) {}
         }
 
+        function renderSPIChart(regionName) {
+          const rows = vizState.spiByRegion.get(regionName);
+          if (!rows || !rows.length) return;
+
+          if (vizState.chart) {
+            vizState.chart.destroy();
+            vizState.chart = null;
+          }
+
+          const labels = rows.map(r => r.date);
+          const values = rows.map(r => {
+            const v = Number(r.value);
+            return Number.isNaN(v) ? null : v;
+          });
+
+          const ctx = document.getElementById('droughtChart').getContext('2d');
+          vizState.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels,
+              datasets: [{
+                label: `SPI (${regionName})`,
+                data: values,
+                spanGaps: true,
+                borderColor: '#b1d189',
+                backgroundColor: 'rgba(177, 209, 137, 0.2)',
+                tension: 0.2
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: { suggestedMin: -3, suggestedMax: 3 }
+              }
+            }
+          });
+        }
+
+        function setSPIRegionByIndex(idx) {
+          if (!vizState.spiRegions.length) return;
+          const clamped = (idx + vizState.spiRegions.length) % vizState.spiRegions.length;
+          vizState.spiRegionIndex = clamped;
+          const name = vizState.spiRegions[clamped];
+          const select = document.getElementById('spi-region-select');
+          if (select) select.value = name;
+          renderSPIChart(name);
+        }
+
+        function setSPIRegionByName(name) {
+          if (!name) return;
+          const target = name.trim().toLowerCase();
+          const idx = vizState.spiRegions.findIndex(r => r.toLowerCase() === target);
+          if (idx === -1) return;
+          setSPIRegionByIndex(idx);
+        }
+
+        function initSPIControls() {
+          const select = document.getElementById('spi-region-select');
+
+          if (select) {
+            select.innerHTML = vizState.spiRegions
+              .map(r => `<option value="${r}">${r}</option>`)
+              .join('');
+            select.addEventListener('change', (e) => {
+              setSPIRegionByName(e.target.value);
+            });
+          }
+        }
+
+        async function loadSPI() {
+          try {
+            const res = await fetch('./data/processed/spi_timeseries.csv');
+            if (!res.ok) throw new Error('SPI not available');
+            const text = await res.text();
+            const rows = parseCSV(text);
+            const byRegion = new Map();
+
+            rows.forEach(r => {
+              const name = (r.region_name ?? '').trim();
+              const date = (r.date ?? '').trim();
+              const value = (r.spi ?? '').trim();
+              if (!name || !date) return;
+              if (!byRegion.has(name)) byRegion.set(name, []);
+              byRegion.get(name).push({ date, value });
+            });
+
+            byRegion.forEach((list) => {
+              list.sort((a, b) => a.date.localeCompare(b.date));
+            });
+
+            vizState.spiByRegion = byRegion;
+            vizState.spiRegions = Array.from(byRegion.keys()).sort();
+            vizState.spiRegionIndex = 0;
+            vizState.spiReady = vizState.spiRegions.length > 0;
+
+            if (vizState.spiReady) {
+              initSPIControls();
+              setSPIRegionByIndex(0);
+              const badge = document.getElementById('ts-badge');
+              const note = document.getElementById('ts-note');
+              if (badge) {
+                badge.textContent = 'SPI';
+                badge.className = 'badge badge-live';
+              }
+              if (note) {
+                note.textContent = 'SPI time series by region (spi_timeseries.csv). Use the selector to switch regions.';
+              }
+            }
+          } catch (e) {}
+        }
+
         function updateRanking(data) {
-          if (!data.length) return;
+          const list = document.getElementById('ranking-list');
+          if (!list || !data.length) return;
+          const rows = data
+            .filter(d => !Number.isNaN(d.drought_index))
+            .sort((a, b) => b.drought_index - a.drought_index)
+            .slice(0, 10);
+
+          list.innerHTML = rows.map(d => {
+            const name = d.region_name ?? 'Unknown';
+            const value = Number(d.drought_index);
+            const formatted = Number.isNaN(value) ? 'n/a' : value.toFixed(2);
+            return `<li><span>${name}</span><span class="ranking-value">${formatted}</span></li>`;
+          }).join('');
         }
 
         function onMashupLoaded(data) {
-          updateMap(data);
-          updateKPIs(data);
-          updateTimeSeriesSmart(data);
-          updateRanking(data);
+          const normalized = data.map(d => ({
+            ...d,
+            year: Number(d.year),
+            drought_index: Number(d.drought_index),
+            precipitation_anomaly: Number(d.precipitation_anomaly)
+          }));
+          updateMap(normalized);
+          updateKPIs(normalized);
+          updateTimeSeriesSmart(normalized);
+          updateRanking(normalized);
         }
 
         async function loadGeoJSON() {
@@ -1640,15 +2449,21 @@
           }
 
           function onEachFeature(feature, l) {
-            const p = feature.properties || {};
-            const name = p.shapeName ?? 'Unknown';
-            const drought = (p.drought_index ?? 'n/a');
-            const water = (p.water_stress_level ?? 'n/a');
-            const precip = (p.precipitation_anomaly ?? 'n/a');
-            const soil = (p.soil_moisture ?? 'n/a');
-            const agri = (p.agricultural_land_percentage ?? 'n/a');
+            const formatValue = (v) => {
+              if (v == null || v === '' || Number.isNaN(v)) return 'n/a';
+              return v;
+            };
 
-            l.bindPopup(`
+            const buildPopup = () => {
+              const p = feature.properties || {};
+              const name = p.shapeName ?? 'Unknown';
+              const drought = formatValue(p.drought_index);
+              const water = formatValue(p.water_stress);
+              const precip = formatValue(p.precipitation_anomaly);
+              const soil = formatValue(p.soil_moisture);
+              const agri = formatValue(p.agricultural_land_percentage);
+
+              return `
               <strong>${name}</strong><br/>
               <b>Drought index:</b> ${drought}<br/>
               Water stress: ${water}<br/>
@@ -1656,13 +2471,17 @@
               Soil moisture: ${soil}<br/>
               Agricultural land %: ${agri}<br/>
               <small>Source: mashup.csv (joined by region_name = shapeName)</small>
-            `);
+            `;
+            };
+
+            l.bindPopup('Loading...');
 
             l.on({
               mouseover: highlight,
               mouseout: resetHighlight,
               click: (e) => {
                 selectRegion(e);
+                l.setPopupContent(buildPopup());
                 l.openPopup();
               }
             });
@@ -1711,6 +2530,7 @@
 
         loadGeoJSON();
         loadMashup();
+        loadSPI();
         vizState.map = map;
 
       } else {

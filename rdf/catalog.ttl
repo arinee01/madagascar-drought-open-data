@@ -5,9 +5,19 @@
 <https://arinee01.github.io/madagascar-drought-open-data/catalog>
   a dcat:Catalog ;
   dct:title "Open Data Analysis of Drought in Madagascar"@en ;
+  dct:conformsTo <https://semiceu.github.io/DCAT-AP/releases/2.1.1/> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
   dct:publisher [
     a foaf:Organization ;
     foaf:name "Student Project – Open Access and Digital Ethics"
   ] ;
   dct:language <http://publications.europa.eu/resource/authority/language/ENG> ;
-  dcat:dataset <#dataset-mashup> .
+  dcat:dataset
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus> .

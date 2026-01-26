@@ -26,6 +26,13 @@ The project combines multiple open datasets published by international organizat
 level. The workflow includes data selection, quality assessment, legal and ethical
 analysis, and publication as Linked Open Data.
 
+## Data preparation scripts
+
+Key normalization steps are documented as scripts in `scripts/`:
+
+- `scripts/prepare_mashup.py` cleans multi-line CSV cells and enforces quoting.
+- `scripts/prepare_spi_timeseries.py` normalizes SPI time series to 2024 data.
+
 ## Open data and licenses
 
 Original datasets are reused according to their respective licenses.

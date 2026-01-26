@@ -5,7 +5,7 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-<#dataset-mashup>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup>
   a dcat:Dataset ;
   adms:identifier "mdg-drought-mashup" ;
   dct:title "Drought indicators in Madagascar (mash-up dataset)"@en ;
@@ -15,20 +15,25 @@
   dct:license <https://creativecommons.org/licenses/by/4.0/> ;
   dct:issued "2026-01-19"^^xsd:date ;
   dct:modified "2026-01-19"^^xsd:date ;
-  prov:wasDerivedFrom <#dataset-fao>, <#dataset-copernicus>, <#dataset-regions> ;
-  dcat:distribution <#dist-mashup-csv> .
+  prov:wasDerivedFrom
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions> ;
+  dcat:distribution <https://arinee01.github.io/madagascar-drought-open-data/#dist-mashup-csv> .
 
-<#dataset-regions>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions>
   a dcat:Dataset ;
   adms:identifier "mdg-regions-adm1-geoboundaries" ;
   dct:title "Madagascar administrative regions (ADM1) – geoBoundaries"@en ;
   dct:description "Administrative boundaries for Madagascar at ADM1 level, reused to support regional aggregation and mapping."@en ;
   dcat:theme <http://publications.europa.eu/resource/authority/data-theme/REGI> ;
   dct:spatial <http://sws.geonames.org/1062947/> ;
-  dct:license <https://www.geoboundaries.org/> ;
-  dcat:distribution <#dist-regions-geojson> .
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dcat:distribution <https://arinee01.github.io/madagascar-drought-open-data/#dist-regions-geojson> .
 
-<#dataset-fao>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao>
   a dcat:Dataset ;
   adms:identifier "fao-water-stress-mdg" ;
   dct:title "FAO drought and water stress indicators for Madagascar"@en ;
@@ -36,15 +41,47 @@
   dct:license <https://creativecommons.org/licenses/by/3.0/igo/> ;
   dct:description "License and terms as declared by the source."@en .
 
-<#dataset-copernicus>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus>
   a dcat:Dataset ;
   adms:identifier "copernicus-drought-mdg" ;
   dct:title "Copernicus drought indicators for Madagascar (source dataset)"@en ;
   dct:publisher <https://www.copernicus.eu/> ;
-  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:license <https://www.copernicus.eu/en/access-data/copernicus-open-access-data-and-information-policy> ;
   dct:description "License and terms as declared by the source."@en .
 
-<#dist-mashup-csv>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>
+  a dcat:Dataset ;
+  adms:identifier "gpcc-precipitation-mdg" ;
+  dct:title "GPCC monthly precipitation data for Madagascar (source dataset)"@en ;
+  dct:publisher <https://www.dwd.de/EN/ourservices/gpcc/gpcc.html> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:description "Global Precipitation Climatology Centre monthly precipitation dataset used to derive regional precipitation anomalies."@en .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>
+  a dcat:Dataset ;
+  adms:identifier "worldbank-water-stress-mdg" ;
+  dct:title "World Bank water stress and agricultural land indicators for Madagascar"@en ;
+  dct:publisher <https://data.worldbank.org/> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:description "World Bank Open Data indicators used for water stress and agricultural land statistics."@en .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm>
+  a dcat:Dataset ;
+  adms:identifier "osm-hot-hydro-mdg" ;
+  dct:title "OpenStreetMap / HOT waterways and geographic features (Madagascar)"@en ;
+  dct:publisher <https://www.openstreetmap.org/> ;
+  dct:license <https://opendatacommons.org/licenses/odbl/1-0/> ;
+  dct:description "Geospatial features derived from OpenStreetMap and HOT contributions for Madagascar."@en .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi>
+  a dcat:Dataset ;
+  adms:identifier "mdg-spi-timeseries" ;
+  dct:title "SPI monthly time series by region (Madagascar)"@en ;
+  dct:description "Standardized Precipitation Index time series by ADM1 region, used for the SPI chart."@en ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dcat:distribution <https://arinee01.github.io/madagascar-drought-open-data/#dist-spi-csv> .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-mashup-csv>
   a dcat:Distribution ;
   adms:identifier "dist-mashup-csv" ;
   dct:title "Mash-up dataset (CSV)"@en ;
@@ -53,7 +90,7 @@
   dcat:accessURL <https://arinee01.github.io/madagascar-drought-open-data/> ;
   dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/mashup.csv> .
 
-<#dist-regions-geojson>
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-regions-geojson>
   a dcat:Distribution ;
   adms:identifier "dist-regions-geojson" ;
   dct:title "Administrative regions ADM1 (GeoJSON)"@en ;
@@ -61,3 +98,12 @@
   dcat:mediaType "application/geo+json" ;
   dcat:accessURL <https://arinee01.github.io/madagascar-drought-open-data/> ;
   dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/regions.geojson> .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-spi-csv>
+  a dcat:Distribution ;
+  adms:identifier "dist-spi-csv" ;
+  dct:title "SPI time series (CSV)"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/CSV> ;
+  dcat:mediaType "text/csv" ;
+  dcat:accessURL <https://arinee01.github.io/madagascar-drought-open-data/> ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/spi_timeseries.csv> .
