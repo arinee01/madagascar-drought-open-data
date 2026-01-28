@@ -560,6 +560,28 @@
       margin-top: 0;
     }
 
+    .knime-figure {
+      margin: 16px 0 10px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(247, 245, 238, 0.2);
+      background: rgba(9, 12, 10, 0.35);
+    }
+
+    .knime-figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .knime-figure figcaption {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
     .ranking-card {
       margin-top: 16px;
       padding: 18px 20px;
@@ -1711,6 +1733,20 @@
             By documenting how output datasets are produced from their sources, the project
             enables informed reuse and long-term maintenance of the datasets.
           </p>
+          <figure class="knime-figure">
+            <img src="./assets/images/knime.jpeg" alt="KNIME workflow for the Madagascar drought data preparation pipeline"/>
+            <figcaption>
+              The KNIME workflow documents the data preparation pipeline used in this project to
+              harmonize regional drought indicators for Madagascar.
+              <br/><br/>
+              Two source datasets (aggregated precipitation data and monthly SPI time series) were
+              imported, cleaned, normalized, and merged by region and year. The resulting mash-up
+              dataset was then exported as a CSV file for visualization and RDF publication.
+              <br/><br/>
+              Although some early data exploration steps were performed manually, this workflow
+              provides a transparent and reproducible representation of the processing logic.
+            </figcaption>
+          </figure>
           <div class="btnrow">
             <a class="btn ghost" href="#home">Back to Home</a>
           </div>
