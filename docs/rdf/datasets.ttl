@@ -20,10 +20,10 @@
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>,
-    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions> ;
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-geoboundaries> ;
   dcat:distribution <https://arinee01.github.io/madagascar-drought-open-data/#dist-mashup-csv> .
 
-<https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-geoboundaries>
   a dcat:Dataset ;
   adms:identifier "mdg-regions-adm1-geoboundaries" ;
   dct:title "Madagascar administrative regions (ADM1) – geoBoundaries"@en ;
@@ -47,6 +47,7 @@
   dct:title "Copernicus drought indicators for Madagascar (source dataset)"@en ;
   dct:publisher <https://www.copernicus.eu/> ;
   dct:license <https://www.copernicus.eu/en/access-data/copernicus-open-access-data-and-information-policy> ;
+  dcat:distribution <https://arinee01.github.io/madagascar-drought-open-data/#dist-copernicus-sources-txt> ;
   dct:description "License and terms as declared by the source."@en .
 
 <https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>
@@ -73,7 +74,7 @@
   dct:license <https://opendatacommons.org/licenses/odbl/1-0/> ;
   dct:description "Geospatial features derived from OpenStreetMap and HOT contributions for Madagascar."@en .
 
-<https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi>
+<https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries>
   a dcat:Dataset ;
   adms:identifier "mdg-spi-timeseries" ;
   dct:title "SPI monthly time series by region (Madagascar)"@en ;
@@ -107,3 +108,24 @@
   dcat:mediaType "text/csv" ;
   dcat:accessURL <https://arinee01.github.io/madagascar-drought-open-data/> ;
   dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/processed/spi_timeseries.csv> .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-geoboundaries-adm1-geojson>
+  a dcat:Distribution ;
+  dct:title "geoBoundaries Madagascar ADM1 (GeoJSON) — raw"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/GEOJSON> ;
+  dcat:mediaType "application/geo+json" ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/raw/geoboundaries/geoboundaries_madagascar_adm1.geojson> .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-worldbank-waterstress-csv>
+  a dcat:Distribution ;
+  dct:title "World Bank indicator ER.H2O.FWAG.ZS (Madagascar) — raw CSV"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/CSV> ;
+  dcat:mediaType "text/csv" ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/raw/worldbank/worldbank_freshwater_withdrawals_agriculture_madagascar.csv> .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-gpcc-precipitation-csv>
+  a dcat:Distribution ;
+  dct:title "GPCC precipitation (Madagascar, curated extract) — raw CSV"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/CSV> ;
+  dcat:mediaType "text/csv" ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/raw/gpcc/gpcc_precipitation_madagascar_2024.csv> .

@@ -26,6 +26,13 @@ The project combines multiple open datasets published by international organizat
 level. The workflow includes data selection, quality assessment, legal and ethical
 analysis, and publication as Linked Open Data.
 
+## Data structure
+
+- `data/raw/` — original datasets as downloaded from official sources
+- `docs/data/processed/` — curated and aggregated datasets used for visualization
+- `scripts/` — scripts used to prepare mash-up and time series
+- `docs/` — one-page website and RDF metadata (DCAT-AP)
+
 ## Data preparation scripts
 
 Key normalization steps are documented as scripts in `scripts/`:

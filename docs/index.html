@@ -843,10 +843,10 @@
     <div class="scroll-hint" id="scroll-hint">Horizontal scroll <span>→</span></div>
 
     <div class="h-scroll">
-      <header id="home" class="hero glass card scenic reveal" style="--bg: url('./bg-01.webp');">
+      <header id="home" class="hero glass card scenic reveal" style="--bg: url('./assets/images/bg-01.webp');">
       <div class="hero-top">
         <div>
-          <div class="pill">Open Access & Digital Ethics <span class="kbd">CFU 6</span></div>
+            <div class="pill">Open Access & Digital Ethics</div>
           <h1>Madagascar Drought <span class="accent">Open Data Mash-Up</span></h1>
           <p class="sub">
             A citizen-oriented, reproducible project that curates open datasets to describe
@@ -877,7 +877,7 @@
 
       <div class="grid two">
         <main class="grid" aria-live="polite">
-        <section id="home-overview" class="view glass card scenic reveal" style="--bg: url('./bg-02.webp');">
+        <section id="home-overview" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-02.webp');">
           <div class="section-title">
             <h2>Home</h2>
             <div class="meta">Overview</div>
@@ -892,7 +892,7 @@
           </div>
         </section>
 
-        <section id="introduction" class="view glass card scenic reveal" style="--bg: url('./bg-03.webp');">
+        <section id="introduction" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-03.webp');">
           <div class="section-title">
             <h2>1. Introduction</h2>
             <div class="meta">Purpose & public interest</div>
@@ -933,7 +933,7 @@
           </div>
         </section>
 
-        <section id="scenario" class="view glass card scenic reveal" style="--bg: url('./bg-04.webp');">
+        <section id="scenario" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-04.webp');">
           <div class="section-title">
             <h2>2. Scenario</h2>
             <div class="meta">Research question & scope</div>
@@ -960,13 +960,13 @@
 
           <div class="scenario-gallery">
             <figure class="scenario-figure">
-              <img src="./pic1.jpg" alt="Dense tropical forest canopy in Madagascar" class="parallax-media" />
+              <img src="./assets/images/pic1.jpg" alt="Dense tropical forest canopy in Madagascar" class="parallax-media" />
             </figure>
             <figure class="scenario-figure">
-              <img src="./pic2.jpg" alt="Tropical vegetation and wetland area in Madagascar" class="parallax-media" />
+              <img src="./assets/images/pic2.jpg" alt="Tropical vegetation and wetland area in Madagascar" class="parallax-media" />
             </figure>
             <figure class="scenario-figure">
-              <img src="./pic3.jpg" alt="Forest edge with layered tropical vegetation" class="parallax-media" />
+              <img src="./assets/images/pic3.jpg" alt="Forest edge with layered tropical vegetation" class="parallax-media" />
             </figure>
           </div>
 
@@ -1024,7 +1024,7 @@
           </div>
         </section>
 
-        <section id="datasets" class="view glass card scenic reveal" style="--bg: url('./bg-05.webp');">
+        <section id="datasets" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-05.webp');">
           <div class="section-title">
             <h2>3. Original datasets and mash-up datasets</h2>
             <div class="meta">Provenance / formats / licenses</div>
@@ -1088,6 +1088,51 @@
             </div>
           </div>
 
+          <h3 style="margin:14px 0 8px;">Raw sources (as stored in this repository)</h3>
+          <div class="list">
+            <div class="dataset">
+              <div class="name">📦 GPCC – Precipitation</div>
+              <p class="desc">
+                Source: Global Precipitation Climatology Centre (DWD).<br/>
+                Original file: <code>data/raw/gpcc/gpcc_precipitation_madagascar_2024.csv</code><br/>
+                Official URL: <code>https://opendata.dwd.de/climate_environment/GPCC/</code><br/>
+                License: DWD Open Data Licence.<br/>
+                Used fields: precipitation_anomaly, drought_index (SPI proxy).<br/>
+                Notes: Regional values aggregated for ADM1 regions.
+              </p>
+            </div>
+            <div class="dataset">
+              <div class="name">📦 Copernicus Global Drought Observatory</div>
+              <p class="desc">
+                Source: European Commission – JRC.<br/>
+                Original material: <code>data/raw/copernicus/copernicus_drought_madagascar_sources.txt</code><br/>
+                Official URL: <code>https://edo.jrc.ec.europa.eu/</code><br/>
+                License: Copernicus Open Access Licence.<br/>
+                Usage: qualitative context and ethics analysis (no regional CSV available).
+              </p>
+            </div>
+            <div class="dataset">
+              <div class="name">📦 World Bank – Water Stress</div>
+              <p class="desc">
+                Source: World Bank Open Data.<br/>
+                Original file: <code>data/raw/worldbank/worldbank_freshwater_withdrawals_agriculture_madagascar.csv</code><br/>
+                Official URL: <code>https://data.worldbank.org/indicator/ER.H2O.FWAG.ZS</code><br/>
+                License: CC BY 4.0.<br/>
+                Usage: national-level water stress indicator.
+              </p>
+            </div>
+            <div class="dataset">
+              <div class="name">📦 geoBoundaries – Regions</div>
+              <p class="desc">
+                Source: geoBoundaries.<br/>
+                Original file: <code>data/raw/geoboundaries/geoboundaries_madagascar_adm1.geojson</code><br/>
+                Official URL: <code>https://www.geoboundaries.org/</code><br/>
+                License: CC BY 4.0.<br/>
+                Usage: regional boundaries for map visualization.
+              </p>
+            </div>
+          </div>
+
           <h3 style="margin:14px 0 8px;">Mash-up dataset (output)</h3>
           <div class="dataset">
             <div class="name">Madagascar drought mash-up</div>
@@ -1113,12 +1158,20 @@
               <span class="pill">Metadata: DCAT-AP (RDF)</span>
             </div>
           </div>
+
+          <p class="note" style="margin-top:12px;">
+            The processed mash-up dataset was created by aggregating and harmonizing selected indicators
+            from the original datasets listed above. Regional precipitation indicators were derived from
+            GPCC data, administrative boundaries from geoBoundaries, and national-level water stress
+            indicators from World Bank Open Data. All transformations are documented in the project
+            scripts and metadata.
+          </p>
           <div class="btnrow">
             <a class="btn ghost" href="#home">Back to Home</a>
           </div>
         </section>
 
-        <section id="quality" class="view glass card scenic reveal" style="--bg: url('./bg-06.webp');">
+        <section id="quality" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-06.webp');">
           <div class="section-title">
             <h2>4. Quality analysis of the datasets</h2>
             <div class="meta">Completeness / consistency / timeliness</div>
@@ -1277,7 +1330,7 @@
           </div>
         </section>
 
-        <section id="legal" class="view glass card scenic reveal" style="--bg: url('./bg-07.webp');">
+        <section id="legal" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-07.webp');">
           <div class="section-title">
             <h2>5. Legal analysis</h2>
             <div class="meta">Ownership / licenses / privacy</div>
@@ -1454,7 +1507,7 @@
           </div>
         </section>
 
-        <section id="ethics" class="view glass card scenic reveal" style="--bg: url('./bg-08.webp');">
+        <section id="ethics" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-08.webp');">
           <div class="section-title">
             <h2>6. Ethics analysis</h2>
             <div class="meta">Fairness / bias / do-no-harm</div>
@@ -1578,7 +1631,7 @@
           </div>
         </section>
 
-        <section id="technical" class="view glass card scenic reveal" style="--bg: url('./bg-09.webp');">
+        <section id="technical" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-09.webp');">
           <div class="section-title">
             <h2>7. Technical analysis (formats, metadata, URI, provenance)</h2>
             <div class="meta">Formats / metadata / URI / provenance</div>
@@ -1663,7 +1716,7 @@
           </div>
         </section>
 
-        <section id="sustainability" class="view glass card scenic reveal" style="--bg: url('./bg-10.webp');">
+        <section id="sustainability" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-10.webp');">
           <div class="section-title">
             <h2>8. Sustainability of updates over time</h2>
             <div class="meta">Lifecycle / reproducibility / versioning</div>
@@ -1710,7 +1763,7 @@
           </div>
         </section>
 
-        <section id="visualization" class="view glass card scenic reveal" style="--bg: url('./bg-11.webp');">
+        <section id="visualization" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-11.webp');">
           <div class="section-title">
             <h2>9. Visualization</h2>
             <div class="meta">Citizen-friendly / human-readable</div>
@@ -1798,13 +1851,19 @@
           </div>
         </section>
 
-        <section id="rdf" class="view glass card scenic reveal" style="--bg: url('./bg-12.webp');">
+        <section id="rdf" class="view glass card scenic reveal" style="--bg: url('./assets/images/bg-12.webp');">
           <div class="section-title">
             <h2>10. RDF assertion of the metadata</h2>
             <div class="meta">DCAT-AP / license / provenance</div>
           </div>
           <p>
-            Metadata is published as Linked Open Data using RDF and the DCAT-AP application profile.
+            RDF Assertion and DCAT-AP Metadata<br/>
+            <br/>
+            All datasets used and produced in this project are described using RDF according to the DCAT-AP specification. The metadata covers both original (raw) datasets and curated outputs, including mash-up and time-series datasets.<br/>
+            <br/>
+            Each dataset is identified by a persistent HTTP URI and includes information about title, publisher, license, spatial coverage, and available distributions. Provenance relations are explicitly declared using PROV-O, linking the mash-up dataset to its original sources (GPCC, World Bank, Copernicus, geoBoundaries).<br/>
+            <br/>
+            This approach ensures interoperability with European open data portals, supports reuse, and allows third parties to trace each indicator back to its original source.
           </p>
           <div class="btnrow">
             <a class="btn primary" href="./rdf/catalog.ttl">DCAT-AP Catalog (RDF)</a>
@@ -1844,8 +1903,8 @@
   dct:language &lt;http://publications.europa.eu/resource/authority/language/ENG&gt; ;
   dcat:dataset
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup&gt;,
-    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt;,
-    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-geoboundaries&gt;,
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm&gt;,
@@ -1875,10 +1934,10 @@
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;,
-    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt; ;
+    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-geoboundaries&gt; ;
   dcat:distribution &lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-mashup-csv&gt; .
 
-&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-geoboundaries&gt;
   a dcat:Dataset ;
   adms:identifier &quot;mdg-regions-adm1-geoboundaries&quot; ;
   dct:title &quot;Madagascar administrative regions (ADM1) – geoBoundaries&quot;@en ;
@@ -1902,6 +1961,7 @@
   dct:title &quot;Copernicus drought indicators for Madagascar (source dataset)&quot;@en ;
   dct:publisher &lt;https://www.copernicus.eu/&gt; ;
   dct:license &lt;https://www.copernicus.eu/en/access-data/copernicus-open-access-data-and-information-policy&gt; ;
+  dcat:distribution &lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-copernicus-sources-txt&gt; ;
   dct:description &quot;License and terms as declared by the source.&quot;@en .
 
 &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;
@@ -1928,7 +1988,7 @@
   dct:license &lt;https://opendatacommons.org/licenses/odbl/1-0/&gt; ;
   dct:description &quot;Geospatial features derived from OpenStreetMap and HOT contributions for Madagascar.&quot;@en .
 
-&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi&gt;
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries&gt;
   a dcat:Dataset ;
   adms:identifier &quot;mdg-spi-timeseries&quot; ;
   dct:title &quot;SPI monthly time series by region (Madagascar)&quot;@en ;
@@ -1961,22 +2021,43 @@
   dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
   dcat:mediaType &quot;text/csv&quot; ;
   dcat:accessURL &lt;https://arinee01.github.io/madagascar-drought-open-data/&gt; ;
-  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/spi_timeseries.csv&gt; .</code></pre>
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/processed/spi_timeseries.csv&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-geoboundaries-adm1-geojson&gt;
+  a dcat:Distribution ;
+  dct:title &quot;geoBoundaries Madagascar ADM1 (GeoJSON) — raw&quot;@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/GEOJSON&gt; ;
+  dcat:mediaType &quot;application/geo+json&quot; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/raw/geoboundaries/geoboundaries_madagascar_adm1.geojson&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-worldbank-waterstress-csv&gt;
+  a dcat:Distribution ;
+  dct:title &quot;World Bank indicator ER.H2O.FWAG.ZS (Madagascar) — raw CSV&quot;@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
+  dcat:mediaType &quot;text/csv&quot; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/raw/worldbank/worldbank_freshwater_withdrawals_agriculture_madagascar.csv&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-gpcc-precipitation-csv&gt;
+  a dcat:Distribution ;
+  dct:title &quot;GPCC precipitation (Madagascar, curated extract) — raw CSV&quot;@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
+  dcat:mediaType &quot;text/csv&quot; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/raw/gpcc/gpcc_precipitation_madagascar_2024.csv&gt; .</code></pre>
               </div>
             </div>
           </div>
         </section>
 
-        <footer class="glass card scenic reveal" style="--bg: url('./bg-13.webp');">
+        <footer class="glass card scenic reveal" style="--bg: url('./assets/images/bg-13.webp');">
           <p>
             <a href="https://github.com/arinee01/madagascar-drought-open-data/">GitHub repository</a> 
             | <a href="./LICENSE">MIT License</a>
-            | Open Access & Digital Ethics (CFU 6)
+            | Open Access & Digital Ethics
           </p>
         </footer>
       </main>
 
-      <aside class="grid scenic reveal" style="--bg: url('./bg-14.webp');">
+      <aside class="grid scenic reveal" style="--bg: url('./assets/images/bg-14.webp');">
         <div class="glass card">
           <div class="section-title">
             <h2>Quick links</h2>

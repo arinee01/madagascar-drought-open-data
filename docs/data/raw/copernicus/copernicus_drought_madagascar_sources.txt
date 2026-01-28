@@ -1,0 +1,5 @@
+Source: Copernicus Global Drought Observatory
+URL: https://edo.jrc.ec.europa.eu/
+License: Copernicus Open Access Licence
+Used in project: qualitative context, visual comparison, ethics analysis
+Note: No regional numeric CSV available; indicators provided as maps.

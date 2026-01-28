@@ -14,8 +14,8 @@
   dct:language <http://publications.europa.eu/resource/authority/language/ENG> ;
   dcat:dataset
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup>,
-    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-regions>,
-    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-geoboundaries>,
+    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm>,
