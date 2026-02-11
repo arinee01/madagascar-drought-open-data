@@ -1,8 +1,5 @@
 # Open Data Analysis of Drought in Madagascar
 
-This repository contains a student project developed for the course
-**Open Access and Digital Ethics (CFU 6)** held by Monica Palmirani.
-
 The project explores the reuse of open datasets to analyze spatial and temporal
 patterns of drought and water stress in Madagascar, with particular attention to
 legal, ethical, and technical aspects of open data reuse.
