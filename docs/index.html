@@ -1055,48 +1055,30 @@
           <h3 style="margin:10px 0 8px;">Original datasets</h3>
           <div class="list">
             <div class="dataset">
-              <div class="name">FAO - drought / water stress indicators</div>
-              <p class="desc">Aggregated indicators for drought and water stress. Format: CSV. License: CC BY 3.0 IGO.</p>
-              <div class="row">
-                <span class="pill">CSV</span>
-                <span class="pill">CC BY 3.0 IGO</span>
-                <span class="pill">Provenance: UN</span>
-              </div>
-            </div>
-            <div class="dataset">
               <div class="name">Copernicus - Global Drought Observatory indicators</div>
-              <p class="desc">Climate-related drought indicators (e.g., anomalies/soil moisture). Format: NetCDF/CSV. License: Copernicus Open Access Licence.</p>
+              <p class="desc">Climate-related drought indicators and reference material used as qualitative context. Format: web resources/TXT references. License: Copernicus Open Access Licence.</p>
               <div class="row">
-                <span class="pill">NetCDF -> CSV</span>
+                <span class="pill">TXT references</span>
                 <span class="pill">Copernicus Open Access</span>
                 <span class="pill">Provenance: EU</span>
               </div>
             </div>
             <div class="dataset">
               <div class="name">GPCC (DWD) - monthly precipitation data</div>
-              <p class="desc">Rain-gauge precipitation observations used for anomalies and SPI. Format: CSV. License: CC BY 4.0.</p>
+              <p class="desc">Rain-gauge precipitation observations used for anomalies and SPI. Format: CSV. License: DWD Open Data Licence.</p>
               <div class="row">
                 <span class="pill">CSV</span>
-                <span class="pill">CC BY 4.0</span>
+                <span class="pill">DWD Open Data</span>
                 <span class="pill">Provenance: DWD (Germany)</span>
               </div>
             </div>
             <div class="dataset">
               <div class="name">World Bank Open Data - water stress / agricultural land</div>
-              <p class="desc">National and regional indicators for water stress and land use. Format: CSV. License: CC BY 4.0.</p>
+              <p class="desc">National-level indicators for water stress and agricultural water withdrawals. Format: CSV. License: CC BY 4.0.</p>
               <div class="row">
                 <span class="pill">CSV</span>
                 <span class="pill">CC BY 4.0</span>
                 <span class="pill">Provenance: World Bank</span>
-              </div>
-            </div>
-            <div class="dataset">
-              <div class="name">OpenStreetMap / HOT - waterways and geographic features</div>
-              <p class="desc">Open geospatial features used for contextual reference. Format: GeoJSON. License: ODbL 1.0.</p>
-              <div class="row">
-                <span class="pill">GeoJSON</span>
-                <span class="pill">ODbL 1.0</span>
-                <span class="pill">Provenance: OSM / HOT</span>
               </div>
             </div>
             <div class="dataset">
@@ -1360,8 +1342,8 @@
           <p>
             This legal assessment is grounded in international open data principles and the national
             legal framework applicable to Madagascar, as well as the reuse policies of major
-            international data providers such as the World Bank, FAO, Copernicus, and the Global
-            Drought Observatory. The analysis follows the principles of lawful reuse, transparency,
+            international data providers such as the World Bank, GPCC/DWD, Copernicus, and geoBoundaries.
+            The analysis follows the principles of lawful reuse, transparency,
             and ethical compliance as required in open access research projects.
           </p>
 
@@ -1393,10 +1375,9 @@
           </p>
           <ul>
             <li>World Bank Open Data - water stress, agricultural land, water withdrawal indicators</li>
-            <li>FAO (Food and Agriculture Organization) - agricultural and environmental statistics</li>
             <li>Copernicus Programme / Global Drought Observatory (JRC) - drought, vegetation, and soil moisture indicators</li>
-            <li>Humanitarian OpenStreetMap Team (HOT) - geospatial data on waterways and infrastructure</li>
-            <li>Administrative boundary datasets sourced from international open geospatial repositories</li>
+            <li>Global Precipitation Climatology Centre (GPCC / DWD) - precipitation and anomaly indicators</li>
+            <li>geoBoundaries - administrative boundary datasets for regional aggregation</li>
           </ul>
           <p>
             These organizations retain authorship but allow reuse, transformation, and redistribution
@@ -1407,10 +1388,9 @@
           <h3>3. Licensing and reuse</h3>
           <p>The datasets used in this project are distributed under open licenses compatible with reuse, including:</p>
           <ul>
-            <li>CC BY 4.0 (World Bank, FAO datasets)</li>
+            <li>CC BY 4.0 (World Bank and geoBoundaries datasets)</li>
             <li>Copernicus Open Access Licence (environmental and satellite-derived indicators)</li>
-            <li>CC BY 4.0 (geoBoundaries, GPCC)</li>
-            <li>Open Database License (ODbL) or equivalent (OpenStreetMap / HOT data)</li>
+            <li>DWD Open Data Licence (GPCC datasets)</li>
           </ul>
           <p>
             To ensure full compatibility and openness, the final mashup dataset produced in this
@@ -1450,8 +1430,8 @@
           <p>The datasets used in the mashup differ in update frequency and temporal coverage:</p>
           <ul>
             <li>World Bank indicators: updated annually; some indicators have a reporting delay of 1-2 years</li>
-            <li>FAO datasets: updated annually or biannually</li>
             <li>Copernicus / Global Drought Observatory: near-real-time or monthly updates, depending on the indicator</li>
+            <li>GPCC precipitation datasets: monthly updates, with curated extracts updated on project refresh</li>
             <li>Geospatial boundary data: relatively stable, updated only when administrative changes occur</li>
           </ul>
           <p>
@@ -1493,19 +1473,18 @@
           <p>The analysis integrates datasets provided by the following institutions and initiatives:</p>
           <ul>
             <li>World Bank Open Data - indicators on water stress, freshwater withdrawals, and agricultural land use</li>
-            <li>FAO (Food and Agriculture Organization of the United Nations) - agricultural and environmental statistics</li>
             <li>Copernicus Programme / Global Drought Observatory - satellite-based drought indicators</li>
             <li>Global Precipitation Climatology Centre (GPCC) - precipitation data</li>
-            <li>Administrative boundary datasets sourced from international open geospatial repositories</li>
+            <li>geoBoundaries - administrative boundary data for regional mapping</li>
           </ul>
 
           <h4>Data licensing</h4>
           <p>The source datasets are governed by the following licenses:</p>
           <ul>
             <li>World Bank Open Data - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
-            <li>FAO Data - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
             <li>Copernicus Data - Copernicus Open Access Licence</li>
-            <li>GPCC Data - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
+            <li>GPCC Data - DWD Open Data Licence</li>
+            <li>geoBoundaries - Creative Commons Attribution 4.0 International (CC BY 4.0)</li>
           </ul>
           <p>
             All licenses permit reuse, modification, and redistribution of data, provided that
@@ -1911,7 +1890,7 @@
               <li><strong>DCAT-AP catalog</strong> describing the project and the list of datasets.</li>
               <li><strong>DCAT-AP dataset metadata</strong> for each original dataset, the mash-up dataset, and the SPI time series.</li>
               <li><strong>Distributions</strong> linking to CSV and GeoJSON files used for analysis and visualization.</li>
-              <li><strong>License references</strong> using resolvable URIs (Creative Commons).</li>
+              <li><strong>License references</strong> using resolvable URIs (Creative Commons, DWD, Copernicus).</li>
               <li><strong>Provenance</strong> linking the mash-up dataset to original sources via PROV-O.</li>
             </ul>
             <div class="btnrow">
@@ -1943,8 +1922,6 @@
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;,
-    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm&gt;,
-    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt; .</code></pre>
               </div>
               <div class="tab-panel" role="tabpanel" id="rdf-datasets">
@@ -1952,7 +1929,6 @@
 @prefix dct:  &lt;http://purl.org/dc/terms/&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix adms: &lt;http://www.w3.org/ns/adms#&gt; .
-@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 @prefix xsd:  &lt;http://www.w3.org/2001/XMLSchema#&gt; .
 
 &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup&gt;
@@ -1966,7 +1942,6 @@
   dct:issued &quot;2026-01-19&quot;^^xsd:date ;
   dct:modified &quot;2026-01-19&quot;^^xsd:date ;
   prov:wasDerivedFrom
-    &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc&gt;,
     &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;,
@@ -1983,14 +1958,6 @@
   dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
   dcat:distribution &lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-regions-geojson&gt; .
 
-&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao&gt;
-  a dcat:Dataset ;
-  adms:identifier &quot;fao-water-stress-mdg&quot; ;
-  dct:title &quot;FAO drought and water stress indicators for Madagascar&quot;@en ;
-  dct:publisher &lt;http://www.fao.org/&gt; ;
-  dct:license &lt;https://creativecommons.org/licenses/by/3.0/igo/&gt; ;
-  dct:description &quot;License and terms as declared by the source.&quot;@en .
-
 &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus&gt;
   a dcat:Dataset ;
   adms:identifier &quot;copernicus-drought-mdg&quot; ;
@@ -2005,7 +1972,7 @@
   adms:identifier &quot;gpcc-precipitation-mdg&quot; ;
   dct:title &quot;GPCC monthly precipitation data for Madagascar (source dataset)&quot;@en ;
   dct:publisher &lt;https://www.dwd.de/EN/ourservices/gpcc/gpcc.html&gt; ;
-  dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
+  dct:license &lt;https://www.dwd.de/EN/ourservices/opendata/opendata.html&gt; ;
   dct:description &quot;Global Precipitation Climatology Centre monthly precipitation dataset used to derive regional precipitation anomalies.&quot;@en .
 
 &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank&gt;
@@ -2015,14 +1982,6 @@
   dct:publisher &lt;https://data.worldbank.org/&gt; ;
   dct:license &lt;https://creativecommons.org/licenses/by/4.0/&gt; ;
   dct:description &quot;World Bank Open Data indicators used for water stress and agricultural land statistics.&quot;@en .
-
-&lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm&gt;
-  a dcat:Dataset ;
-  adms:identifier &quot;osm-hot-hydro-mdg&quot; ;
-  dct:title &quot;OpenStreetMap / HOT waterways and geographic features (Madagascar)&quot;@en ;
-  dct:publisher &lt;https://www.openstreetmap.org/&gt; ;
-  dct:license &lt;https://opendatacommons.org/licenses/odbl/1-0/&gt; ;
-  dct:description &quot;Geospatial features derived from OpenStreetMap and HOT contributions for Madagascar.&quot;@en .
 
 &lt;https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries&gt;
   a dcat:Dataset ;
@@ -2078,7 +2037,14 @@
   dct:title &quot;GPCC precipitation (Madagascar, curated extract) — raw CSV&quot;@en ;
   dct:format &lt;http://publications.europa.eu/resource/authority/file-type/CSV&gt; ;
   dcat:mediaType &quot;text/csv&quot; ;
-  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/raw/gpcc/gpcc_precipitation_madagascar_2024.csv&gt; .</code></pre>
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/raw/gpcc/gpcc_precipitation_madagascar_2024.csv&gt; .
+
+&lt;https://arinee01.github.io/madagascar-drought-open-data/#dist-copernicus-sources-txt&gt;
+  a dcat:Distribution ;
+  dct:title &quot;Copernicus drought sources and references (Madagascar context) — raw TXT&quot;@en ;
+  dct:format &lt;http://publications.europa.eu/resource/authority/file-type/TXT&gt; ;
+  dcat:mediaType &quot;text/plain&quot; ;
+  dcat:downloadURL &lt;https://arinee01.github.io/madagascar-drought-open-data/data/raw/copernicus/copernicus_drought_madagascar_sources.txt&gt; .</code></pre>
               </div>
             </div>
           </div>
@@ -2087,7 +2053,7 @@
         <footer class="glass card scenic reveal" style="--bg: url('./assets/images/bg-13.webp');">
           <p>
             <a href="https://github.com/arinee01/madagascar-drought-open-data/">GitHub repository</a> 
-            | <a href="./LICENSE">MIT License</a>
+            | <a href="https://github.com/arinee01/madagascar-drought-open-data/blob/main/LICENSE">MIT License</a>
             | Open Access & Digital Ethics
           </p>
         </footer>

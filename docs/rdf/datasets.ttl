@@ -2,7 +2,6 @@
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix adms: <http://www.w3.org/ns/adms#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 <https://arinee01.github.io/madagascar-drought-open-data/#dataset-mashup>
@@ -16,7 +15,6 @@
   dct:issued "2026-01-19"^^xsd:date ;
   dct:modified "2026-01-19"^^xsd:date ;
   prov:wasDerivedFrom
-    <https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-gpcc>,
     <https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>,
@@ -33,14 +31,6 @@
   dct:license <https://creativecommons.org/licenses/by/4.0/> ;
   dcat:distribution <https://arinee01.github.io/madagascar-drought-open-data/#dist-regions-geojson> .
 
-<https://arinee01.github.io/madagascar-drought-open-data/#dataset-fao>
-  a dcat:Dataset ;
-  adms:identifier "fao-water-stress-mdg" ;
-  dct:title "FAO drought and water stress indicators for Madagascar"@en ;
-  dct:publisher <http://www.fao.org/> ;
-  dct:license <https://creativecommons.org/licenses/by/3.0/igo/> ;
-  dct:description "License and terms as declared by the source."@en .
-
 <https://arinee01.github.io/madagascar-drought-open-data/#dataset-copernicus>
   a dcat:Dataset ;
   adms:identifier "copernicus-drought-mdg" ;
@@ -55,7 +45,7 @@
   adms:identifier "gpcc-precipitation-mdg" ;
   dct:title "GPCC monthly precipitation data for Madagascar (source dataset)"@en ;
   dct:publisher <https://www.dwd.de/EN/ourservices/gpcc/gpcc.html> ;
-  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:license <https://www.dwd.de/EN/ourservices/opendata/opendata.html> ;
   dct:description "Global Precipitation Climatology Centre monthly precipitation dataset used to derive regional precipitation anomalies."@en .
 
 <https://arinee01.github.io/madagascar-drought-open-data/#dataset-worldbank>
@@ -65,14 +55,6 @@
   dct:publisher <https://data.worldbank.org/> ;
   dct:license <https://creativecommons.org/licenses/by/4.0/> ;
   dct:description "World Bank Open Data indicators used for water stress and agricultural land statistics."@en .
-
-<https://arinee01.github.io/madagascar-drought-open-data/#dataset-osm>
-  a dcat:Dataset ;
-  adms:identifier "osm-hot-hydro-mdg" ;
-  dct:title "OpenStreetMap / HOT waterways and geographic features (Madagascar)"@en ;
-  dct:publisher <https://www.openstreetmap.org/> ;
-  dct:license <https://opendatacommons.org/licenses/odbl/1-0/> ;
-  dct:description "Geospatial features derived from OpenStreetMap and HOT contributions for Madagascar."@en .
 
 <https://arinee01.github.io/madagascar-drought-open-data/#dataset-spi-timeseries>
   a dcat:Dataset ;
@@ -129,3 +111,10 @@
   dct:format <http://publications.europa.eu/resource/authority/file-type/CSV> ;
   dcat:mediaType "text/csv" ;
   dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/raw/gpcc/gpcc_precipitation_madagascar_2024.csv> .
+
+<https://arinee01.github.io/madagascar-drought-open-data/#dist-copernicus-sources-txt>
+  a dcat:Distribution ;
+  dct:title "Copernicus drought sources and references (Madagascar context) — raw TXT"@en ;
+  dct:format <http://publications.europa.eu/resource/authority/file-type/TXT> ;
+  dcat:mediaType "text/plain" ;
+  dcat:downloadURL <https://arinee01.github.io/madagascar-drought-open-data/data/raw/copernicus/copernicus_drought_madagascar_sources.txt> .

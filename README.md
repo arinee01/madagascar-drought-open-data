@@ -5,23 +5,21 @@ patterns of drought and water stress in Madagascar, with particular attention to
 legal, ethical, and technical aspects of open data reuse.
 
 ## Project structure
-
-
-
+```text
 /data
-/raw # original datasets (or references)
-/processed # mash-up output datasets
-/docs # one-page website (GitHub Pages)
-/rdf # DCAT-AP metadata and RDF files
-/scripts # data processing scripts
+  /raw        # original datasets (or references)
+/docs         # one-page website (GitHub Pages), processed data, RDF mirror
+/rdf          # DCAT-AP metadata and RDF files
+/scripts      # data processing scripts
+```
 
 
 ## Methodology
 
 The project combines multiple open datasets published by international organizations
-(e.g. FAO, Copernicus, World Bank) to produce an aggregated mash-up dataset at regional
-level. The workflow includes data selection, quality assessment, legal and ethical
-analysis, and publication as Linked Open Data.
+(e.g. Copernicus, GPCC/DWD, World Bank, geoBoundaries) to produce an aggregated
+mash-up dataset at regional level. The workflow includes data selection, quality
+assessment, legal and ethical analysis, and publication as Linked Open Data.
 
 ## Data structure
 
